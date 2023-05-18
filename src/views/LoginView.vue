@@ -13,7 +13,7 @@
             <div class="col col-3">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default">Parool</span>
-                    <input v-model="password" type="text" class="form-control" id="password">
+                    <input v-model="password" type="password" class="form-control" id="password">
                 </div>
             </div>
         </div>
@@ -27,6 +27,7 @@
 
 <script>
 import AlertDanger from "@/components/alert/AlertDanger.vue";
+import router from "@/router";
 
 export default {
     name: "LoginView",
@@ -35,7 +36,15 @@ export default {
         return {
             username: '',
             password: '',
-            message: ''
+            message: '',
+            loginResponse: {
+                userId: 0,
+                roleName: ''
+            },
+            errorResponse: {
+                message: '',
+                errorCode: 0
+            }
         }
     },
     methods: {
@@ -43,7 +52,27 @@ export default {
             this.message = ''
             if (this.username === '' || this.password === '') {
                 this.message = 'Oot..oot..nii küll ei saa luurele minna. Täida ikka mõlemad väljad ära!'
+            } else {
+                this.sendLoginRequest()
             }
+        },
+
+        sendLoginRequest() {
+            this.$http.get("/login", {
+                params: {
+                    username: this.username,
+                    password: this.password
+                }
+            }).then(response => {
+                this.loginResponse = response.data
+            }).catch(error => {
+                this.errorResponse = error.response.data
+                if (this.errorResponse.errorCode === 111) {
+                    this.message = this.errorResponse.message
+                } else {
+                    router.push({name: 'errorRoute'})
+                }
+            })
         },
     }
 }
