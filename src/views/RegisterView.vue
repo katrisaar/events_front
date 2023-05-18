@@ -54,11 +54,12 @@
                 <button @click="register" class="btn btn-primary" type="submit">Registreeru</button>
             </div>
         </div>
-     </div>
+    </div>
 </template>
 
 <script>
 import AlertDanger from "@/components/alert/AlertDanger.vue";
+import router from "@/router";
 
 export default {
     name: "RegisterView",
@@ -68,11 +69,19 @@ export default {
             message: '',
             repeatPassword: '',
             newUser: {
-                firstName: 'dadasdsad',
-                lastName: 'fgdfgdfg',
+                firstName: '',
+                lastName: '',
                 email: '',
                 username: '',
                 password: ''
+            },
+            registerResponse: {
+                userId: 0,
+                roleName: ''
+            },
+            errorResponse: {
+                message: '',
+                errorCode: 0
             }
         }
     },
@@ -103,6 +112,22 @@ export default {
 
         postNewUser() {
             this.message = ''
+            this.$http.post("/profile", this.newUser
+            ).then(response => {
+                this.registerResponse = response.data
+                sessionStorage.setItem('userId', this.registerResponse.userId)
+                sessionStorage.setItem('roleName', this.registerResponse.roleName)
+                this.$emit('event-update-nav-menu')
+                router.push({name: 'dashboardRoute'})
+            }).catch(error => {
+                    this.errorResponse = error.response.data
+                    if (this.errorResponse.errorCode === 222) {
+                        this.message = this.errorResponse.message
+                    } else {
+                        router.push({name: 'errorRoute'})
+                    }
+                }
+            )
         },
     }
 
