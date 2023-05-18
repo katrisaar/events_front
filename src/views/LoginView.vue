@@ -65,6 +65,10 @@ export default {
                 }
             }).then(response => {
                 this.loginResponse = response.data
+                sessionStorage.setItem('userId', this.loginResponse.userId)
+                sessionStorage.setItem('roleName', this.loginResponse.roleName)
+                this.$emit('event-update-nav-menu')
+                router.push({name: 'dashboardRoute'})
             }).catch(error => {
                 this.errorResponse = error.response.data
                 if (this.errorResponse.errorCode === 111) {
