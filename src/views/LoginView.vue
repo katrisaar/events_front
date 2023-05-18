@@ -1,7 +1,7 @@
 <template>
-    <div class="container">
+    <div @keydown.enter="login" class="container">
         <AlertDanger :message="message"/>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center  mt-5">
             <div class="col col-3">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Kasutajanimi</span>
@@ -20,6 +20,16 @@
         <div class="row">
             <div class="col">
                 <button @click="login" class="btn btn-primary" type="submit">Logi sisse</button>
+            </div>
+        </div>
+        <div class="row mt-5" >
+            <div class="col">
+                Kas Sul pole veel kasutajat? Siin saad registreeruda.
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col">
+                <button @click="initiateRegistration" class="btn btn-outline-success" type="submit ">Registreeru</button>
             </div>
         </div>
     </div>
@@ -78,6 +88,10 @@ export default {
                 }
             })
         },
+        initiateRegistration() {
+            router.push({name: 'registerRoute'})
+        },
+
     }
 }
 </script>
