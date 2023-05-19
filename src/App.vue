@@ -4,8 +4,11 @@
         |
         <router-link to="#">Üritused</router-link>
         |
-
-        <router-link v-if="userId === null" to="/login">Logi sisse</router-link>
+        <template v-if="userId === null">
+            <router-link to="/register">Registreeru</router-link>
+            |
+            <router-link to="/login">Logi sisse</router-link>
+        </template>
         <template v-else>
             <router-link to="/dashboard">Dashboard</router-link>
             |
