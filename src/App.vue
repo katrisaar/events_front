@@ -10,19 +10,10 @@
             <router-link to="/login">Logi sisse</router-link>
         </template>
         <template v-else>
-            <template v-if="roleName === 'admin'">
-                <router-link to="/dashboard">Kasutajate nimekiri</router-link>
-                |
-                <router-link to="/dashboard">Dashboard</router-link>
-                |
-                <router-link to="#" @click="handleLogout">Logi välja</router-link>
-            </template>
-            <template v-else>
-                <router-link to="/dashboard">Dashboard</router-link>
-                |
-                <router-link to="#" @click="handleLogout">Logi välja</router-link>
-            </template>
-
+            <router-link v-if="roleName === 'admin'" to="/admin">Kasutajate nimekiri |</router-link>
+            <router-link to="/dashboard">Töölaud</router-link>
+            |
+            <router-link to="#" @click="handleLogout">Logi välja</router-link>
         </template>
     </nav>
     <LogoutModal ref="logoutModalRef" @event-update-nav-menu="updateNavMenu"/>
