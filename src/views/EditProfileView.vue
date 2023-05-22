@@ -1,9 +1,148 @@
 <template>
+    <div class="container">
+        <AlertDanger :message="message"/>
+        <AlertSuccess :message="successMessage"/>
+        <div class="row mt-5">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Eesnimi</span>
+                    <input v-model="user.firstName" type="text" class="form-control" id="firstName">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Perekonnanimi</span>
+                    <input v-model="user.lastName" type="text" class="form-control" id="lastName">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">E-mail</span>
+                    <input v-model="user.email" type="email" class="form-control" id="email">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Kasutajanimi</span>
+                    <input v-model="user.username" type="text" class="form-control" id="username">
+                </div>
+                <div>
+                    <h5>Kui soovid muuta parooli</h5>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Uus parool</span>
+                    <input v-model="password" type="password" class="form-control" id="password">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Korda uut parooli</span>
+                    <input v-model="repeatPassword" type="password" class="form-control" id="repeatPassword">
+                </div>
 
+            </div>
+            <div class="col col-3">
+                <div><ProfileImage :picture-data-base64="user.imageData"/></div>
+                <div class="mt-2"><button type="button" class="btn btn-outline-primary">Muuda pilti</button></div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-2">
+            <div class="col col-1 align-content-lg-start">
+                <button type="button" class="btn btn-outline-secondary">Tagasi</button>
+            </div>
+            <div class="col col-6">
+                <button @click="editUserInfo" class="btn btn-primary" type="submit">Muuda andmeid</button>
+            </div>
+            <div class="col col-5"></div>
+        </div>
+    </div>
 </template>
 
 <script>
+import router from "@/router";
+import {useRoute} from "vue-router";
+import ProfileImage from "@/components/ProfileImage.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+
 export default {
-    name: "EditProfileView"
+    name: "EditProfileView",
+    components: {AlertSuccess, AlertDanger, ProfileImage},
+    data() {
+        return {
+            userId: Number(useRoute().query.userId),
+            message: '',
+            successMessage: '',
+            password: '',
+            repeatPassword: '',
+            user: {
+                username: '',
+                firstName: '',
+                lastName: '',
+                email: '',
+                imageData: '',
+                password: ''
+            },
+            errorResponse: {
+                message: '',
+                errorCode: 0
+            }
+        }
+    },
+    methods: {
+        getUserInfo() {
+            this.$http.get("/profile", {
+                params: {
+                    userId: this.userId
+                }
+            })
+                .then(response => {
+                    this.user = response.data
+                })
+                .catch(error => {
+                    router.push({name: 'errorRoute'})
+                })
+        },
+        editUserInfo() {
+            this.message = ''
+            this.successMessage = ''
+            if (this.isFieldsMissing()) {
+                this.message = 'Ole hea, täida kõik väljad!'
+            } else if (this.existsPasswordsMismatch()) {
+                this.message = 'Sisestatud paroolid ei kattu omavahel. Proovi uuesti!';
+            } else {
+                this.user.password = this.password
+                this.updateUser()
+            }
+
+        },
+
+        isFieldsMissing() {
+            return this.user.firstName === '' ||
+                this.user.lastName === '' ||
+                this.user.email === '' ||
+                this.user.username === '';
+        },
+
+        existsPasswordsMismatch() {
+            return this.password !== this.repeatPassword;
+        },
+
+        updateUser() {
+            this.message = ''
+            this.successMessage = ''
+            this.$http.put("/profile", this.user, {
+                    params: {
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                this.successMessage = "Kasutaja andmed on edukalt muudetud!"
+            }).catch(error => {
+                this.errorResponse = error.response.data
+                if (this.errorResponse.errorCode === 222) {
+                    this.message = this.errorResponse.message
+                } else {
+                    router.push({name: 'errorRoute'})
+                }
+            })
+        },
+
+    },
+    beforeMount() {
+        this.getUserInfo()
+    }
 }
 </script>
