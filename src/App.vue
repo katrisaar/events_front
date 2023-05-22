@@ -10,6 +10,11 @@
             <router-link to="/login">Logi sisse</router-link>
         </template>
         <template v-else>
+            <router-link to="/dashboard">Dashboard</router-link>
+            |
+            <router-link to="/profile">Minu profiil</router-link>
+            |
+            <router-link to="#" @click="handleLogout">Logi välja</router-link>
             <router-link v-if="roleName === 'admin'" to="/admin">Kasutajate nimekiri |</router-link>
             <router-link v-else to="/dashboard">Töölaud |</router-link>
             <router-link to="#" @click="handleLogout"> Logi välja</router-link>
@@ -22,9 +27,10 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import LogoutModal from "@/components/modal/LogoutModal.vue";
+import DeleteUserModal from "@/components/modal/DeleteUserModal.vue";
 
 export default {
-    components: {LogoutModal, Modal},
+    components: {DeleteUserModal, LogoutModal, Modal},
     data() {
         return {
             userId: sessionStorage.getItem('userId'),
@@ -38,7 +44,7 @@ export default {
         },
         handleLogout() {
             this.$refs.logoutModalRef.$refs.modalRef.openModal()
-        },
+        }
     }
 }
 
