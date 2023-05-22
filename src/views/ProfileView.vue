@@ -58,7 +58,7 @@ export default {
             this.$refs.DeleteUserModal.$refs.modalRef.openModal()
         },
         defineUser() {
-            if (useRoute().query.userId !== null) {
+            if (useRoute().query.userId.length !== 0) {
                 this.userId = Number(useRoute().query.userId)
             } else {
                 this.userId = sessionStorage.getItem('userId')
