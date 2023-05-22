@@ -46,7 +46,8 @@ export default {
         return {
             username: '',
             password: '',
-            message: '',
+            message:
+                '',
             loginResponse: {
                 userId: 0,
                 roleName: ''
