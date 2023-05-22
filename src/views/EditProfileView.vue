@@ -7,7 +7,3 @@ export default {
     name: "EditProfileView"
 }
 </script>
-
-<style scoped>
-
-</style>
