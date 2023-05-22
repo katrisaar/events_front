@@ -2,7 +2,7 @@
     <nav>
         <router-link to="/">Avaleht</router-link>
         |
-        <router-link to="#">Üritused</router-link>
+        <router-link to="/events">Üritused</router-link>
         |
         <template v-if="userId === null">
             <router-link to="/register">Registreeru</router-link>

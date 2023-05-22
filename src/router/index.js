@@ -5,6 +5,7 @@ import ErrorView from "@/views/ErrorView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import AdminView from "@/views/AdminView.vue";
+import EventsView from "@/views/EventsView.vue";
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: '/admin',
     name: 'adminRoute',
     component: AdminView
+  },
+  {
+    path: '/events',
+    name: 'eventsRoute',
+    component: EventsView
   },
   {
     path: '/register',
