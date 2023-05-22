@@ -42,6 +42,7 @@ export default {
         return {
             allEvents: [
                 {
+                    eventId: '',
                     name: '',
                     fee: '',
                     activityTypeName: '',
