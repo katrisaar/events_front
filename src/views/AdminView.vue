@@ -17,7 +17,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="userInfo in allUsers" :key="userInfo.userId">
-                        <td>{{ userInfo.username }}</td>
+                        <td><a href="#" @click="openProfileView(userInfo.userId)">{{ userInfo.username }}</a></td>
                         <td>{{ userInfo.firstName }}</td>
                         <td>{{ userInfo.lastName }}</td>
                         <td>{{ userInfo.email }}</td>
@@ -37,9 +37,11 @@
 
 <script>
 import router from "@/router";
+import ProfileView from "@/views/ProfileView.vue";
 
 export default {
     name: "AdminView",
+    components: {ProfileView},
     data() {
         return {
             allUsers: [
@@ -64,6 +66,9 @@ export default {
                 .catch(error => {
                     router.push({name: 'errorRoute'})
                 })
+        },
+        openProfileView(userId) {
+            router.push({name: 'profileRoute', query: {userId: userId}})
         }
     },
     beforeMount() {
