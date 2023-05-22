@@ -2,7 +2,7 @@
     <nav>
         <router-link to="/">Avaleht</router-link>
         |
-        <router-link to="#">Üritused</router-link>
+        <router-link to="/events">Üritused</router-link>
         |
         <template v-if="userId === null">
             <router-link to="/register">Registreeru</router-link>
@@ -12,6 +12,7 @@
         <template v-else>
             <router-link v-if="roleName === 'admin'" to="/admin">Kasutajate nimekiri |</router-link>
             <router-link v-else to="/dashboard">Töölaud |</router-link>
+            <router-link to="/profile">Minu profiil |</router-link>
             <router-link to="#" @click="handleLogout"> Logi välja</router-link>
         </template>
     </nav>
