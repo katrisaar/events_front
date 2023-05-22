@@ -16,37 +16,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">...</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <font-awesome-icon class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
-                            <font-awesome-icon class="hoverable-link" :icon="['fas', 'xmark']"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">...</th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <font-awesome-icon class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
-                            <font-awesome-icon class="hoverable-link" :icon="['fas', 'xmark']"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"></th>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr v-for="userInfo in allUsers" :key="userInfo.userId">
+                        <td>{{ userInfo.username }}</td>
+                        <td>{{ userInfo.firstName }}</td>
+                        <td>{{ userInfo.lastName }}</td>
+                        <td>{{ userInfo.email }}</td>
+                        <td>{{ userInfo.roleName }}</td>
+                        <td>{{ userInfo.status }}</td>
                         <td>
                             <font-awesome-icon class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
                             <font-awesome-icon class="hoverable-link" :icon="['fas', 'xmark']"/>
@@ -60,11 +36,39 @@
 </template>
 
 <script>
+import router from "@/router";
+
 export default {
-    name: "AdminView"
+    name: "AdminView",
+    data() {
+        return {
+            allUsers: [
+                {
+                    userId: '',
+                    status: '',
+                    roleName: '',
+                    lastName: '',
+                    firstName: '',
+                    username: '',
+                    email: ''
+                }
+            ]
+        }
+    },
+    methods: {
+        getAllUsers() {
+            this.$http.get("/admin")
+                .then(response => {
+                    this.allUsers = response.data
+                })
+                .catch(error => {
+                    router.push({name: 'errorRoute'})
+                })
+        }
+    },
+    beforeMount() {
+        this.getAllUsers()
+    }
 }
+
 </script>
-
-<style scoped>
-
-</style>

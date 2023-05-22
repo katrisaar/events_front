@@ -11,9 +11,8 @@
         </template>
         <template v-else>
             <router-link v-if="roleName === 'admin'" to="/admin">Kasutajate nimekiri |</router-link>
-            <router-link to="/dashboard">Töölaud</router-link>
-            |
-            <router-link to="#" @click="handleLogout">Logi välja</router-link>
+            <router-link v-else to="/dashboard">Töölaud |</router-link>
+            <router-link to="#" @click="handleLogout"> Logi välja</router-link>
         </template>
     </nav>
     <LogoutModal ref="logoutModalRef" @event-update-nav-menu="updateNavMenu"/>
