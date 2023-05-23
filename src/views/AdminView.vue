@@ -24,7 +24,7 @@
                         <td>{{ userInfo.roleName }}</td>
                         <td>{{ userInfo.status }}</td>
                         <td>
-                            <font-awesome-icon v-if="userInfo.status === 'A'" class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
+                            <font-awesome-icon v-if="userInfo.status === 'A'" @click="navigateToEditProfile(userInfo.userId)" class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
                             <font-awesome-icon v-if="userInfo.status === 'A'" class="hoverable-link" :icon="['fas', 'xmark']"/>
                         </td>
                     </tr>
@@ -69,7 +69,10 @@ export default {
         },
         openProfileView(userId) {
             router.push({name: 'profileRoute', query: {userId: userId}})
-        }
+        },
+        navigateToEditProfile(userId) {
+            router.push({name: 'editProfileRoute', query: {userId: userId}})
+        },
     },
     beforeMount() {
         this.getAllUsers()
