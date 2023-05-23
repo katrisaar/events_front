@@ -35,17 +35,20 @@
             </div>
             <div class="col col-3">
                 <div><ProfileImage :picture-data-base64="user.imageData"/></div>
-                <div class="mt-2"><button type="button" class="btn btn-outline-primary">Muuda pilti</button></div>
+                <div class="mt-2"><ImageInput @event-emit-base64="setImageData" /></div>
             </div>
         </div>
         <div class="row justify-content-center mt-2">
-            <div class="col col-1 align-content-lg-start">
-                <button type="button" class="btn btn-outline-secondary">Tagasi</button>
+            <div class="col col-3 align-content-lg-start">
+                <button v-if="userId !== myUserId" @click="goBackToList" type="button" class="btn btn-outline-secondary">Tagasi kasutajate nimekirja</button>
             </div>
-            <div class="col col-6">
+            <div class="col col-3">
+                <button v-if="userId === myUserId" @click="goBackToMyProfile" type="button" class="btn btn-outline-secondary">Tagasi oma profiili vaatama</button>
+            </div>
+            <div class="col col-3">
                 <button @click="editUserInfo" class="btn btn-primary" type="submit">Muuda andmeid</button>
             </div>
-            <div class="col col-5"></div>
+            <div class="col col-3"></div>
         </div>
     </div>
 </template>
@@ -53,15 +56,18 @@
 <script>
 import router from "@/router";
 import {useRoute} from "vue-router";
-import ProfileImage from "@/components/ProfileImage.vue";
+import ProfileImage from "@/components/image/ProfileImage.vue";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+import ImageInput from "@/components/image/ImageInput.vue";
 
 export default {
     name: "EditProfileView",
-    components: {AlertSuccess, AlertDanger, ProfileImage},
+    components: {ImageInput, AlertSuccess, AlertDanger, ProfileImage},
     data() {
         return {
+            myRoleName: sessionStorage.getItem('roleName'),
+            myUserId: Number(sessionStorage.getItem('userId')),
             userId: Number(useRoute().query.userId),
             message: '',
             successMessage: '',
@@ -95,6 +101,11 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
+
+        setImageData(pictureDataBase64) {
+            this.user.imageData = pictureDataBase64
+        },
+
         editUserInfo() {
             this.message = ''
             this.successMessage = ''
@@ -138,6 +149,14 @@ export default {
                     router.push({name: 'errorRoute'})
                 }
             })
+        },
+
+        goBackToList() {
+            router.push({name: 'adminRoute'})
+        },
+
+        goBackToMyProfile() {
+            router.push({name: 'profileRoute'})
         },
 
     },
