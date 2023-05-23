@@ -27,8 +27,8 @@
                         <td>{{ userInfo.roleName }}</td>
                         <td>{{ userInfo.status }}</td>
                         <td>
-                            <font-awesome-icon @click="navigateToEditProfile(userInfo.userId)" class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
-                            <font-awesome-icon @click="openDeleteProfileModal(userInfo.userId)" class="hoverable-link" :icon="['fas', 'xmark']"/>
+                            <font-awesome-icon v-if="userInfo.status === 'A'"  @click="navigateToEditProfile(userInfo.userId)" class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
+                            <font-awesome-icon v-if="userInfo.status === 'A'"  @click="openDeleteProfileModal(userInfo.userId)" class="hoverable-link" :icon="['fas', 'xmark']"/>
                         </td>
                     </tr>
                     </tbody>

@@ -8,6 +8,7 @@ import ProfileView from "@/views/ProfileView.vue";
 import AdminView from "@/views/AdminView.vue";
 import EditProfileView from "@/views/EditProfileView.vue";
 import EventsView from "@/views/EventsView.vue";
+import CreateEventView from "@/views/CreateEventView.vue";
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
     path: '/register',
     name: 'registerRoute',
     component: RegisterView
+  },
+  {
+    path: '/createevent',
+    name: 'createEventRoute',
+    component: CreateEventView
   },
   {
     path: '/editprofile',
