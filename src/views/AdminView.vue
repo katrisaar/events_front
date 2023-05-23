@@ -1,6 +1,6 @@
 <template>
     <div class="container justify-content-center">
-        <h4>Admini töölaud</h4>
+        <h4>Kasutajad</h4>
         <AlertSuccess :message="successMessage"/>
         <ProfileModal ref="profileModalRef" />
         <DeleteProfileModal ref="deleteProfileModalRef" @event-user-deleted="eventProfileDeleted" />

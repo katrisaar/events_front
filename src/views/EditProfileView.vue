@@ -39,13 +39,16 @@
             </div>
         </div>
         <div class="row justify-content-center mt-2">
-            <div class="col col-1 align-content-lg-start">
-                <button @click="goBack" type="button" class="btn btn-outline-secondary">Tagasi</button>
+            <div class="col col-3 align-content-lg-start">
+                <button v-if="userId !== myUserId" @click="goBackToList" type="button" class="btn btn-outline-secondary">Tagasi kasutajate nimekirja</button>
             </div>
-            <div class="col col-6">
+            <div class="col col-3">
+                <button v-if="userId === myUserId" @click="goBackToMyProfile" type="button" class="btn btn-outline-secondary">Tagasi oma profiili vaatama</button>
+            </div>
+            <div class="col col-3">
                 <button @click="editUserInfo" class="btn btn-primary" type="submit">Muuda andmeid</button>
             </div>
-            <div class="col col-5"></div>
+            <div class="col col-3"></div>
         </div>
     </div>
 </template>
@@ -63,6 +66,8 @@ export default {
     components: {ImageInput, AlertSuccess, AlertDanger, ProfileImage},
     data() {
         return {
+            myRoleName: sessionStorage.getItem('roleName'),
+            myUserId: Number(sessionStorage.getItem('userId')),
             userId: Number(useRoute().query.userId),
             message: '',
             successMessage: '',
@@ -146,8 +151,12 @@ export default {
             })
         },
 
-        goBack() {
+        goBackToList() {
             router.push({name: 'adminRoute'})
+        },
+
+        goBackToMyProfile() {
+            router.push({name: 'profileRoute'})
         },
 
     },
