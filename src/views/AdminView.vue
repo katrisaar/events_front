@@ -1,6 +1,9 @@
 <template>
     <div class="container justify-content-center">
         <h4>Admini töölaud</h4>
+        <AlertSuccess :message="successMessage"/>
+        <ProfileModal ref="profileModalRef" />
+        <DeleteProfileModal ref="deleteProfileModalRef" @event-user-deleted="eventProfileDeleted" />
         <div class="row mt-5">
             <div class="col">
                 <table class="table table-hover">
@@ -17,7 +20,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="userInfo in allUsers" :key="userInfo.userId">
-                        <td><a href="#" @click="openProfileView(userInfo.userId)">{{ userInfo.username }}</a></td>
+                        <td><a href="#" @click="openProfileModal(userInfo.userId)">{{ userInfo.username }}</a></td>
                         <td>{{ userInfo.firstName }}</td>
                         <td>{{ userInfo.lastName }}</td>
                         <td>{{ userInfo.email }}</td>
@@ -25,7 +28,7 @@
                         <td>{{ userInfo.status }}</td>
                         <td>
                             <font-awesome-icon @click="navigateToEditProfile(userInfo.userId)" class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
-                            <font-awesome-icon class="hoverable-link" :icon="['fas', 'xmark']"/>
+                            <font-awesome-icon @click="openDeleteProfileModal(userInfo.userId)" class="hoverable-link" :icon="['fas', 'xmark']"/>
                         </td>
                     </tr>
                     </tbody>
@@ -38,12 +41,16 @@
 <script>
 import router from "@/router";
 import ProfileView from "@/views/ProfileView.vue";
+import ProfileModal from "@/components/modal/ProfileModal.vue";
+import DeleteProfileModal from "@/components/modal/DeleteProfileModal.vue"
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 
 export default {
     name: "AdminView",
-    components: {ProfileView},
+    components: {AlertSuccess, DeleteProfileModal, ProfileModal, ProfileView},
     data() {
         return {
+            successMessage: '',
             allUsers: [
                 {
                     userId: '',
@@ -67,11 +74,21 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
-        openProfileView(userId) {
-            router.push({name: 'profileRoute', query: {userId: userId}})
+        openProfileModal(userId) {
+            this.$refs.profileModalRef.getUserInfoAndOpenProfileModal(userId);
         },
         navigateToEditProfile(userId) {
             router.push({name: 'editProfileRoute', query: {userId: userId}})
+        },
+        openDeleteProfileModal(userId) {
+            this.successMessage = ''
+            this.$refs.deleteProfileModalRef.$refs.profileModalRef.getUserInfoAndOpenProfileModal(userId)
+            this.$refs.deleteProfileModalRef.setSelectedUserId(userId)
+        },
+
+        eventProfileDeleted(successMessage) {
+            this.getAllUsers()
+            this.successMessage = successMessage
         },
     },
     beforeMount() {

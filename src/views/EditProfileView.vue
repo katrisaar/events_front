@@ -35,12 +35,12 @@
             </div>
             <div class="col col-3">
                 <div><ProfileImage :picture-data-base64="user.imageData"/></div>
-                <div class="mt-2"><button type="button" class="btn btn-outline-primary">Muuda pilti</button></div>
+                <div class="mt-2"><ImageInput @event-emit-base64="setImageData" /></div>
             </div>
         </div>
         <div class="row justify-content-center mt-2">
             <div class="col col-1 align-content-lg-start">
-                <button type="button" class="btn btn-outline-secondary">Tagasi</button>
+                <button @click="goBack" type="button" class="btn btn-outline-secondary">Tagasi</button>
             </div>
             <div class="col col-6">
                 <button @click="editUserInfo" class="btn btn-primary" type="submit">Muuda andmeid</button>
@@ -53,13 +53,14 @@
 <script>
 import router from "@/router";
 import {useRoute} from "vue-router";
-import ProfileImage from "@/components/ProfileImage.vue";
+import ProfileImage from "@/components/image/ProfileImage.vue";
 import AlertDanger from "@/components/alert/AlertDanger.vue";
 import AlertSuccess from "@/components/alert/AlertSuccess.vue";
+import ImageInput from "@/components/image/ImageInput.vue";
 
 export default {
     name: "EditProfileView",
-    components: {AlertSuccess, AlertDanger, ProfileImage},
+    components: {ImageInput, AlertSuccess, AlertDanger, ProfileImage},
     data() {
         return {
             userId: Number(useRoute().query.userId),
@@ -95,6 +96,11 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
+
+        setImageData(pictureDataBase64) {
+            this.user.imageData = pictureDataBase64
+        },
+
         editUserInfo() {
             this.message = ''
             this.successMessage = ''
@@ -138,6 +144,10 @@ export default {
                     router.push({name: 'errorRoute'})
                 }
             })
+        },
+
+        goBack() {
+            router.push({name: 'adminRoute'})
         },
 
     },

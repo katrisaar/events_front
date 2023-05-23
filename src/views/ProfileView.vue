@@ -23,18 +23,18 @@
             </div>
         </div>
     </div>
-    <DeleteUserModal ref="DeleteUserModal" @event-update-nav-menu="updateNavMenu"/>
+    <DeleteProfileModal ref="DeleteUserModal" @event-update-nav-menu="updateNavMenu"/>
 </template>
 
 <script>
 import Modal from "@/components/modal/Modal.vue";
-import DeleteUserModal from "@/components/modal/DeleteUserModal.vue";
+import DeleteProfileModal from "@/components/modal/DeleteProfileModal.vue";
 import {useRoute} from "vue-router";
 import router from "@/router";
 
 export default {
     name: "ProfileView",
-    components: {DeleteUserModal, Modal},
+    components: {DeleteProfileModal, Modal},
     data() {
         return {
             userId: sessionStorage.getItem('userId'),

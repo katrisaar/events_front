@@ -1,5 +1,5 @@
 <template>
-    <img v-if="pictureDataBase64 === ''" src="../assets/blank-profile-picture.webp" class="img-thumbnail"/>
+    <img v-if="pictureDataBase64 === ''" src="../../assets/blank-profile-picture.webp" class="img-thumbnail"/>
     <img v-else :src="pictureDataBase64" class="img-thumbnail">
 </template>
 

@@ -23,10 +23,10 @@
 <script>
 import Modal from "@/components/modal/Modal.vue";
 import LogoutModal from "@/components/modal/LogoutModal.vue";
-import DeleteUserModal from "@/components/modal/DeleteUserModal.vue";
+import DeleteProfileModal from "@/components/modal/DeleteProfileModal.vue";
 
 export default {
-    components: {DeleteUserModal, LogoutModal, Modal},
+    components: {DeleteProfileModal, LogoutModal, Modal},
     data() {
         return {
             userId: sessionStorage.getItem('userId'),
