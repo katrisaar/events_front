@@ -1,7 +1,7 @@
 <template>
     <select v-model="selectedLocationId" @change="emitSelectedLocationId" class="form-select" aria-label="Default select example">
         <option selected value="0">Kõik piirkonnad</option>
-        <option v-for="location in locations" :key="location.id" :value="location.id">{{ location.name }}</option>
+        <option v-for="location in locations" :key="location.locationId" :value="location.id">{{ location.locationName }}</option>
     </select>
 </template>
 
@@ -15,8 +15,8 @@ export default {
             selectedLocationId: '0',
             locations: [
                 {
-                    name: '',
-                    id: 0
+                    locationName: '',
+                    locationId: 0
                 }
             ]
         }
@@ -34,8 +34,8 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
-        setSelectedLocationId(id) {
-            this.selectedLocationId = id
+        setSelectedLocationId(locationId) {
+            this.selectedLocationId = locationId
         }
     },
     beforeMount() {

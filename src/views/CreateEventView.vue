@@ -57,7 +57,8 @@
             </div>
         </div>
         <div class="row">
-            <div class=" col-1 mt-2">Valdkond
+            <div class=" col-1 mt-2">
+                Valdkond
             </div>
             <div class="col">
                 <select class="form-select"
@@ -152,8 +153,13 @@ export default {
     components: {LocationDropdown},
     data() {
         return {
-
+            location: {
+                locationId: 0,
+                locationName: ''
+            }
         }
+    },
+    methods: {
     }
 }
 </script>
