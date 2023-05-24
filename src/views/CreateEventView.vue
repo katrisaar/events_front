@@ -44,12 +44,14 @@
                 Piirkond
             </div>
             <div class="col">
-                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocation" />
+                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocation"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon :icon="['fas', 'plus']" size="1x"/></span>
-                    <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
+                            :icon="['fas', 'plus']" size="1x"/></span>
+                    <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="col mt-2">
@@ -61,16 +63,18 @@
                 Valdkond
             </div>
             <div class="col">
-                <ActivityTypeDropdown/>
+                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityType"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon :icon="['fas', 'plus']" size="1x"/></span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
+                            :icon="['fas', 'plus']" size="1x"/></span>
+                    <input v-model="newActivityTypeName" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="col mt-2">
-                Lisa uus valdkond
+                <button type="button" @click="saveActivityTypeInput">Lisa uus valdkond</button>
             </div>
         </div>
         <div class="row col-7 mt-3 mb-4">
@@ -125,7 +129,8 @@
         <div class="row">
             <div class="col mb-3">
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                              style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Lisa ürituse kirjeldus</label>
                 </div>
             </div>
@@ -158,7 +163,12 @@ export default {
             },
             event: {
                 locationId: 0,
-
+                activityTypeId: 0
+            },
+            newActivityTypeName: '',
+            activityType: {
+                activityTypeId: 0,
+                activityTypeName: ''
             }
         }
     },
@@ -181,8 +191,27 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
+        saveActivityTypeInput() {
+            this.$http.post("/activitytype", null, {
+                    params: {
+                        newActivityTypeName: this.newActivityTypeName
+                    }
+                }
+            ).then(response => {
+                this.activityType = response.data
+                this.newActivityTypeName = ''
+                this.$refs.activityTypeDropdownRef.getActivityTypes()
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        },
+
         setSelectedLocation(selectedLocationId) {
             this.event.locationId = selectedLocationId
+        },
+        setSelectedActivityType(selectedActivityTypeId) {
+            this.event.activityTypeId = selectedActivityTypeId
         }
     }
 }
