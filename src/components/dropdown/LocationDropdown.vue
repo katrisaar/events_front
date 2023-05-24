@@ -26,7 +26,7 @@ export default {
             this.$emit('event-emit-selected-location-id', Number(this.selectedLocationId))
         },
         getLocations() {
-            this.$http.get("/createevent")
+            this.$http.get("/location")
                 .then(response => {
                     this.locations = response.data
                 })

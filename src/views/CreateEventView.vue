@@ -7,8 +7,13 @@
                     <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </div>
-            <div class="col">
-                Lisa pilt
+            <div class="col mb-3">
+                <div>
+                    <ProfileImage :picture-data-base64="event.imageData"/>
+                </div>
+                <div class="mt-2">
+                    <ImageInput @event-emit-base64="setImageData"/>
+                </div>
             </div>
         </div>
         <div class="row col-7 mb-3">
@@ -44,12 +49,14 @@
                 Piirkond
             </div>
             <div class="col">
-                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocation" />
+                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocation"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon :icon="['fas', 'plus']" size="1x"/></span>
-                    <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
+                            :icon="['fas', 'plus']" size="1x"/></span>
+                    <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="col mt-2">
@@ -64,13 +71,15 @@
                 <select class="form-select"
                         aria-label="Default select example">
                     <option selected value="0">Kõik valdkonnad</option>
-                    <option >.....valdkonnad.....</option>
+                    <option>.....valdkonnad.....</option>
                 </select>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon :icon="['fas', 'plus']" size="1x"/></span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
+                            :icon="['fas', 'plus']" size="1x"/></span>
+                    <input type="text" class="form-control" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="col mt-2">
@@ -129,7 +138,8 @@
         <div class="row">
             <div class="col mb-3">
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 150px"></textarea>
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                              style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Lisa ürituse kirjeldus</label>
                 </div>
             </div>
@@ -148,10 +158,12 @@
 <script>
 import LocationDropdown from "@/components/dropdown/LocationDropdown.vue";
 import router from "@/router";
+import ImageInput from "@/components/image/ImageInput.vue";
+import ProfileImage from "@/components/image/ProfileImage.vue";
 
 export default {
     name: "CreateEventView",
-    components: {LocationDropdown},
+    components: {ProfileImage, ImageInput, LocationDropdown},
     data() {
         return {
             newLocationName: '',
@@ -161,7 +173,7 @@ export default {
             },
             event: {
                 locationId: 0,
-
+                imageData: ''
             }
         }
     },
@@ -186,6 +198,9 @@ export default {
         },
         setSelectedLocation(selectedLocationId) {
             this.event.locationId = selectedLocationId
+        },
+        setImageData(pictureDataBase64) {
+            this.event.imageData = pictureDataBase64
         }
     }
 }
