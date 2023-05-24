@@ -1,7 +1,7 @@
 <template>
     <select v-model="selectedLocationId" @change="emitSelectedLocationId" class="form-select" aria-label="Default select example">
         <option selected value="0">Kõik piirkonnad</option>
-        <option v-for="location in locations" :key="location.locationId" :value="location.id">{{ location.locationName }}</option>
+        <option v-for="location in locations" :key="location.locationId" :value="location.locationId">{{ location.locationName }}</option>
     </select>
 </template>
 

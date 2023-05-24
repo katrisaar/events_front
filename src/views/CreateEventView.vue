@@ -44,16 +44,16 @@
                 Piirkond
             </div>
             <div class="col">
-                <LocationDropdown ref="locationDropdownRef" />
+                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocation" />
             </div>
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon :icon="['fas', 'plus']" size="1x"/></span>
-                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                    <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="col mt-2">
-                Lisa uus piirkond
+                <button type="button" @click="saveLocationInput">Lisa uus piirkond</button>
             </div>
         </div>
         <div class="row">
@@ -147,19 +147,46 @@
 
 <script>
 import LocationDropdown from "@/components/dropdown/LocationDropdown.vue";
+import router from "@/router";
 
 export default {
     name: "CreateEventView",
     components: {LocationDropdown},
     data() {
         return {
+            newLocationName: '',
             location: {
                 locationId: 0,
                 locationName: ''
+            },
+            event: {
+                locationId: 0,
+
             }
         }
     },
     methods: {
+        getLocationName() {
+            return this.location.locationName
+        },
+        saveLocationInput() {
+            this.$http.post("/location", null, {
+                    params: {
+                        newLocationName: this.newLocationName
+                    }
+                }
+            ).then(response => {
+                this.location = response.data
+                this.newLocationName = ''
+                this.$refs.locationDropdownRef.getLocations()
+                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        },
+        setSelectedLocation(selectedLocationId) {
+            this.event.locationId = selectedLocationId
+        }
     }
 }
 </script>
