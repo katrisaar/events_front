@@ -1,8 +1,11 @@
 <template>
     <div class="container">
+        <div class="row justify-content-between">
+            <div class="col"><h5>Tulevased üritused, mida korraldan</h5></div>
+            <div class="col"><button @click="createNewEvent" class="btn btn-primary" type="submit">Loo uus üritus</button></div>
+        </div>
         <div class="row mt-4">
             <div class="col">
-                <h5>Tulevased üritused, mida korraldan</h5>
                 <h6 v-if="organisedEventsMessage !== ''">{{organisedEventsMessage}}</h6>
                 <table v-else class="table table-hover">
                     <thead>
@@ -19,7 +22,7 @@
                     <tr v-for="event in organisedEvents" :key="event.eventId">
                         <td>{{event.startDate}}</td>
                         <td>{{event.registrationDate}}</td>
-                        <td>{{event.eventName}}</td>
+                        <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
                         <td>{{event.spotsAvailable}}</td>
                         <td>{{event.spotsTaken}}</td>
                         <td>
@@ -77,7 +80,13 @@ export default {
                         router.push({name: 'errorRoute'})
                     }
                 })
-        }
+        },
+        navigateToEventView(eventId) {
+            router.push({name: 'eventRoute', query: {eventId: eventId}})
+        },
+        createNewEvent() {
+            router.push({name: 'createEventRoute'})
+        },
     },
     beforeMount() {
         this.getOrganisedEvents()

@@ -12,20 +12,15 @@
                         <th scope="col">Üritus</th>
                         <th scope="col">Vabu kohti</th>
                         <th scope="col">Asukoht</th>
-                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="event in interestedEvents" :key="event.eventId">
                         <td>{{event.startDate}}</td>
                         <td>{{event.registrationDate}}</td>
-                        <td>{{event.eventName}}</td>
+                        <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
                         <td>{{event.spotsAvailable}}</td>
                         <td>{{event.locationName}}</td>
-                        <td>
-                            <font-awesome-icon  class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
-                            <font-awesome-icon  class="hoverable-link" :icon="['fas', 'xmark']"/>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -78,6 +73,9 @@ export default {
                         router.push({name: 'errorRoute'})
                     }
                 })
+        },
+        navigateToEventView(eventId) {
+            router.push({name: 'eventRoute', query: {eventId: eventId}})
         }
     },
     beforeMount() {
