@@ -61,11 +61,7 @@
                 Valdkond
             </div>
             <div class="col">
-                <select class="form-select"
-                        aria-label="Default select example">
-                    <option selected value="0">Kõik valdkonnad</option>
-                    <option >.....valdkonnad.....</option>
-                </select>
+                <ActivityTypeDropdown/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -148,10 +144,11 @@
 <script>
 import LocationDropdown from "@/components/dropdown/LocationDropdown.vue";
 import router from "@/router";
+import ActivityTypeDropdown from "@/components/dropdown/ActivityTypeDropdown.vue";
 
 export default {
     name: "CreateEventView",
-    components: {LocationDropdown},
+    components: {ActivityTypeDropdown, LocationDropdown},
     data() {
         return {
             newLocationName: '',
