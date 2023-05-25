@@ -46,7 +46,7 @@
                 <button v-if="userId === myUserId" @click="goBackToMyProfile" type="button" class="btn btn-outline-secondary">Tagasi oma profiili vaatama</button>
             </div>
             <div class="col col-3">
-                <button @click="editUserInfo" class="btn btn-primary" type="submit">Muuda andmeid</button>
+                <button @click="editUserInfo" class="btn btn-primary" type="submit">Salvesta</button>
             </div>
             <div class="col col-3"></div>
         </div>

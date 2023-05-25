@@ -19,7 +19,7 @@
                     <tr v-for="event in allEvents" :key="event.name">
                         <td>{{event.startDate}}</td>
                         <td>{{event.registrationDate}}</td>
-                        <td>{{event.name}}</td>
+                        <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.name}}</a></td>
                         <td>{{event.locationName}}</td>
                         <td>{{event.activityTypeName}}</td>
                         <td>{{event.spotsAvailable}}</td>
@@ -63,6 +63,9 @@ export default {
                 .catch(error => {
                     router.push({name: 'errorRoute'})
                 })
+        },
+        navigateToEventView(eventId) {
+            router.push({name: 'eventRoute', query: {eventId: eventId}})
         }
     },
     beforeMount() {

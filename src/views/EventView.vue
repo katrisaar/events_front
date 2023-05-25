@@ -2,82 +2,84 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                Mis: {{event.eventName}}
+                <h2>{{ event.eventName }}</h2>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-sm">
-                Algus: {{event.startDate}}, kell {{event.startTime}}
+                <div class="row">
+                    <div class="col-sm">
+                        Algus: {{ event.startDate }}, kell {{ event.startTime }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Lõpp: {{ event.endDate }}, kell {{ event.endTime }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Kus: {{ event.locationName }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Valdkond: {{ event.activityTypeName }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Viimane aeg registreeruda: {{ event.registrationDate }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Kirjeldus: {{ event.description }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Osalejaid mahub: {{ event.spotsMin }} - {{ event.spotsMax }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Hetkel registreerunuid: {{ event.spotsTaken }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Vabu kohti jäänud: {{ event.spotsAvailable }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Osalemistasu: {{ event.fee }} eur
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Täpne aadress: {{ event.addressDescription }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <Organisers :event-id="eventId"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <Participants :event-id="eventId"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        Siia tuleb hunnik nuppe
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-sm">
-                Lõpp: {{event.endDate}}, kell {{event.endTime}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Kus: {{event.locationName}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Valdkond: {{event.activityTypeName}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Viimane aeg registreeruda: {{event.registrationDate}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Kirjeldus: {{event.description}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Osalejaid mahub: {{event.spotsMin}} - {{event.spotsMax}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Hetkel registreerunuid: {{event.spotsTaken}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Vabu kohti jäänud: {{event.spotsAvailable}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Osalemistasu: {{event.fee}} eur
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Täpne aadress: {{event.addressDescription}}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Siia tuleb eraldi tuua korraldajate nimekiri
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Siia toome osalejate nimekirja (mis saab olema nähtav ainult korraldajatele ja osalejatele)
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Siia tuleb hunnik nuppe
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm">
-                Pilt on ka vaja näidata
+                <ProfileImage :picture-data-base64="event.imageData"/>
             </div>
         </div>
     </div>
@@ -86,9 +88,13 @@
 <script>
 import {useRoute} from "vue-router";
 import router from "@/router";
+import ProfileImage from "@/components/image/ProfileImage.vue";
+import Organisers from "@/components/connection/Organisers.vue";
+import Participants from "@/components/connection/Participants.vue";
 
 export default {
     name: "EventView",
+    components: {Participants, Organisers, ProfileImage},
     data() {
         return {
             eventId: Number(useRoute().query.eventId),

@@ -18,7 +18,7 @@
                         <td>{{event.startDate}}</td>
                         <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
                         <td>{{event.locationName}}</td>
-                        <td>{{event.fee}}</td>
+                        <td>{{event.fee}} EUR</td>
                     </tr>
                     </tbody>
                 </table>
