@@ -68,22 +68,18 @@
                 Valdkond
             </div>
             <div class="col">
-                <select class="form-select"
-                        aria-label="Default select example">
-                    <option selected value="0">Kõik valdkonnad</option>
-                    <option>.....valdkonnad.....</option>
-                </select>
+                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityType"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
                             :icon="['fas', 'plus']" size="1x"/></span>
-                    <input type="text" class="form-control" aria-label="Sizing example input"
+                    <input v-model="newActivityTypeName" class="form-control" aria-label="Sizing example input"
                            aria-describedby="inputGroup-sizing-default">
                 </div>
             </div>
             <div class="col mt-2">
-                Lisa uus valdkond
+                <button type="button" @click="saveActivityTypeInput">Lisa uus valdkond</button>
             </div>
         </div>
         <div class="row col-7 mt-3 mb-4">
@@ -160,10 +156,11 @@ import LocationDropdown from "@/components/dropdown/LocationDropdown.vue";
 import router from "@/router";
 import ImageInput from "@/components/image/ImageInput.vue";
 import ProfileImage from "@/components/image/ProfileImage.vue";
+import ActivityTypeDropdown from "@/components/dropdown/ActivityTypeDropdown.vue";
 
 export default {
     name: "CreateEventView",
-    components: {ProfileImage, ImageInput, LocationDropdown},
+    components: {ProfileImage, ImageInput, LocationDropdown, ActivityTypeDropdown},
     data() {
         return {
             newLocationName: '',
@@ -174,6 +171,12 @@ export default {
             event: {
                 locationId: 0,
                 imageData: ''
+                activityTypeId: 0
+            },
+            newActivityTypeName: '',
+            activityType: {
+                activityTypeId: 0,
+                activityTypeName: ''
             }
         }
     },
@@ -196,11 +199,30 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
+        saveActivityTypeInput() {
+            this.$http.post("/activitytype", null, {
+                    params: {
+                        newActivityTypeName: this.newActivityTypeName
+                    }
+                }
+            ).then(response => {
+                this.activityType = response.data
+                this.newActivityTypeName = ''
+                this.$refs.activityTypeDropdownRef.getActivityTypes()
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        },
+
         setSelectedLocation(selectedLocationId) {
             this.event.locationId = selectedLocationId
         },
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
+        },
+        setSelectedActivityType(selectedActivityTypeId) {
+            this.event.activityTypeId = selectedActivityTypeId
         }
     }
 }
