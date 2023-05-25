@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         getParticipants() {
-            this.$http.get("/participants", {
+            this.$http.get("/connection/participants", {
                     params: {
                         eventId: this.eventId
                     }

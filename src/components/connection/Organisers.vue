@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         getOrganisers() {
-            this.$http.get("/organisers", {
+            this.$http.get("/connection/organisers", {
                     params: {
                         eventId: this.eventId
                     }
