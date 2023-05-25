@@ -170,7 +170,7 @@ export default {
             },
             event: {
                 locationId: 0,
-                imageData: ''
+                imageData: '',
                 activityTypeId: 0
             },
             newActivityTypeName: '',
