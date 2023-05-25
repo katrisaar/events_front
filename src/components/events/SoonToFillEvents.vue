@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         getEvents() {
-            this.$http.get("/soontofillevents")
+            this.$http.get("/events/soontofill")
                 .then(response => {
                     this.events = response.data
                 })

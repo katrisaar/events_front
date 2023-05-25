@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         getEvents() {
-            this.$http.get("/mostrecentevents")
+            this.$http.get("/events/recent")
                 .then(response => {
                     this.events = response.data
                 })

@@ -30,7 +30,7 @@ import router from "@/router";
 import ProfileImage from "@/components/image/ProfileImage.vue";
 
 export default {
-    name: "SoonToFinishEvents",
+    name: "SoonToEndEvents",
     components: {ProfileImage},
     data() {
         return {
@@ -47,7 +47,7 @@ export default {
     },
     methods: {
         getEvents() {
-            this.$http.get("/soontoendevents")
+            this.$http.get("/events/soontoend")
                 .then(response => {
                     this.events = response.data
                 })

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm">
                 <h5>Peatselt lõppeva registreerumisega üritused</h5>
-                <SoonToFinishEvents/>
+                <SoonToEndEvents/>
             </div>
             <div class="col-sm">
                 <h5>Peatselt täis saavad üritused</h5>
@@ -21,7 +21,7 @@
 // @ is an alias to /src
 
 import Modal from "@/components/modal/Modal.vue";
-import SoonToFinishEvents from "@/components/events/SoonToFinishEvents.vue";
+import SoonToEndEvents from "@/components/events/SoonToEndEvents.vue";
 import SoonToFillEvents from "@/components/events/SoonToFillEvents.vue";
 import MostRecentEvents from "@/components/events/MostRecentEvents.vue";
 
@@ -30,7 +30,7 @@ export default {
   components: {
       MostRecentEvents,
       SoonToFillEvents,
-      SoonToFinishEvents,
+      SoonToEndEvents,
       Modal
 
   }
