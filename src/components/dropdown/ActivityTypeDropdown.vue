@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         emitSelectedActivityTypeName() {
-            this.$emit('event-emit-selected-activity-type-name', Number(this.selectedActivityTypeName))
+            this.$emit('event-emit-selected-activity-type-name', this.selectedActivityTypeName)
         },
         getActivityTypes() {
             this.$http.get("/activitytype")
