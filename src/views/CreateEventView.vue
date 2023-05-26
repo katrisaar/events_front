@@ -211,6 +211,7 @@ export default {
                 }
             ).then(response => {
                 this.location = response.data
+                this.event.locationName = this.newLocationName
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
                 this.$refs.locationDropdownRef.setSelectedLocationName(this.location.locationName)
@@ -226,6 +227,7 @@ export default {
                 }
             ).then(response => {
                 this.activityType = response.data
+                this.event.activityTypeName = this.newActivityTypeName
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
                 this.$refs.activityTypeDropdownRef.setSelectedActivityTypeName(this.activityType.activityTypeName)
