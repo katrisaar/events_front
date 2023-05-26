@@ -6,7 +6,7 @@
             </div>
             <div class="col">
                 <div v-if="noParticipantsMessage !== ''" class="row">{{noParticipantsMessage}}</div>
-                <div v-else v-for="participant in participants" class="row">
+                <div v-else v-for="participant in participants" :key="participant.lastName" class="row">
                     <div class="col">
                         {{participant.firstName }} {{ participant.lastName }}
                     </div>
