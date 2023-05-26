@@ -1,7 +1,7 @@
 <template>
-    <select v-model="selectedLocationId" @change="emitSelectedLocationId" class="form-select" aria-label="Default select example">
+    <select v-model="selectedLocationName" @change="emitSelectedLocationName" class="form-select" aria-label="Default select example">
         <option selected value="0">Kõik piirkonnad</option>
-        <option v-for="location in locations" :key="location.locationId" :value="location.locationId">{{ location.locationName }}</option>
+        <option v-for="location in locations" :key="location.locationName" :value="location.locationName">{{ location.locationName }}</option>
     </select>
 </template>
 
@@ -12,18 +12,17 @@ export default {
     name: "LocationDropdown",
     data() {
         return {
-            selectedLocationId: '0',
+            selectedLocationName: '0',
             locations: [
                 {
-                    locationName: '',
-                    locationId: 0
+                    locationName: ''
                 }
             ]
         }
     },
     methods: {
-        emitSelectedLocationId() {
-            this.$emit('event-emit-selected-location-id', Number(this.selectedLocationId))
+        emitSelectedLocationName() {
+            this.$emit('event-emit-selected-location-name', this.selectedLocationName)
         },
         getLocations() {
             this.$http.get("/location")
@@ -34,8 +33,8 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
-        setSelectedLocationId(locationId) {
-            this.selectedLocationId = locationId
+        setSelectedLocationName(locationName) {
+            this.selectedLocationName = locationName
         }
     },
     beforeMount() {

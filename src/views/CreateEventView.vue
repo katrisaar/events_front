@@ -49,7 +49,7 @@
                 Piirkond
             </div>
             <div class="col">
-                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocation"/>
+                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-name="setSelectedLocation"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -68,7 +68,7 @@
                 Valdkond
             </div>
             <div class="col">
-                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityType"/>
+                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-name="setSelectedActivityType"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -165,17 +165,14 @@ export default {
         return {
             newLocationName: '',
             location: {
-                locationId: 0,
                 locationName: ''
             },
             event: {
-                locationId: 0,
-                imageData: '',
-                activityTypeId: 0
+                locationName: '',
+                imageData: ''
             },
             newActivityTypeName: '',
             activityType: {
-                activityTypeId: 0,
                 activityTypeName: ''
             }
         }
@@ -194,7 +191,7 @@ export default {
                 this.location = response.data
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
+                this.$refs.locationDropdownRef.setSelectedLocationName(this.location.locationName)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -209,20 +206,20 @@ export default {
                 this.activityType = response.data
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
-                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeName(this.activityType.activityTypeName)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
         },
 
-        setSelectedLocation(selectedLocationId) {
-            this.event.locationId = selectedLocationId
+        setSelectedLocation(selectedLocationName) {
+            this.event.locationName = selectedLocationName
         },
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
         },
-        setSelectedActivityType(selectedActivityTypeId) {
-            this.event.activityTypeId = selectedActivityTypeId
+        setSelectedActivityType(selectedActivityTypeName) {
+            this.event.activityTypeName = selectedActivityTypeName
         }
     }
 }
