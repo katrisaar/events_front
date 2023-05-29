@@ -97,7 +97,7 @@ export default {
         },
         updateEventsStatuses() {
             this.successMessage = ''
-            this.$http.get("/events/update")
+            this.$http.get("/events/statusupdate")
                 .then(response => {
                     this.successMessage = 'Ürituste staatused edukalt värskendatud'
                 })
