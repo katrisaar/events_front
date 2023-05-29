@@ -108,7 +108,7 @@
                     <button @click="cancelEditEvent" type="button" class="btn btn-secondary">Katkesta</button>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-success mb-5">Salvesta muudatused</button>
+                    <button @click="editEvent" class="btn btn-success mb-5" type="submit">Salvesta muudatused</button>
                 </div>
             </div>
         </div>
@@ -128,12 +128,11 @@ export default {
     data() {
         return {
             newLocationName: '',
-            selectedLocationName: '0',
-            selectedActivityTypeName: '0',
             userId: sessionStorage.getItem("userId"),
             eventId: Number(useRoute().query.eventId),
             location: {
-                locationName: ''
+                locationName: '',
+                locationId: 0
             },
             event: {
                 eventName: '',
@@ -167,7 +166,8 @@ export default {
             },
             newActivityTypeName: '',
             activityType: {
-                activityTypeName: ''
+                activityTypeName: '',
+                activityTypeId: 0
             }
         }
     },
@@ -218,6 +218,35 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
+        editEvent() {
+            this.message = ''
+            this.successMessage = ''
+            if (this.isFieldsMissing()) {
+                this.message = 'Ole hea, täida kõik väljad!'
+            } else {
+                this.updateEvent()
+            }
+
+        },
+
+        isFieldsMissing() {
+            return this.event.eventName === '' ||
+                this.event.description === '' ||
+                this.event.activityTypeName === '' ||
+                this.event.locationName === '' ||
+                this.event.spotsMin === '' ||
+                this.event.spotsMax === '' ||
+                this.event.addressDescription === '' ||
+                this.event.registrationDate === '' ||
+                this.event.startDate === '' ||
+                this.event.startTime === '' ||
+                this.event.endDate === '' ||
+                this.event.endTime === '';
+        },
+
+        updateEvent() {
+        },
+
         cancelEditEvent() {
             router.push({name: 'eventRoute', query: {eventId: this.eventId}})
         },

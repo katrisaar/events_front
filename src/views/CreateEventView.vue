@@ -166,7 +166,8 @@ export default {
             newLocationName: '',
             userId: sessionStorage.getItem("userId"),
             location: {
-                locationName: ''
+                locationName: '',
+                locationId: 0
             },
             event: {
                 eventName: '',
@@ -174,7 +175,9 @@ export default {
                 fee: 0,
                 imageData: '',
                 activityTypeName: '',
+                activityTypeId: 0,
                 locationName: '',
+                locationId: 0,
                 spotsMin: 0,
                 spotsMax: 0,
                 spotsAvailable: 0,
@@ -198,7 +201,8 @@ export default {
             },
             newActivityTypeName: '',
             activityType: {
-                activityTypeName: ''
+                activityTypeName: '',
+                activityTypeId: 0
             }
         }
     },
@@ -211,10 +215,10 @@ export default {
                 }
             ).then(response => {
                 this.location = response.data
-                this.event.locationName = this.newLocationName
+                this.event.locationId = this.location.locationId
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationName)
+                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -227,10 +231,10 @@ export default {
                 }
             ).then(response => {
                 this.activityType = response.data
-                this.event.activityTypeName = this.newActivityTypeName
+                this.event.activityTypeId = this.activityType.activityTypeId
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
-                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeName)
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -248,13 +252,13 @@ export default {
             })
         },
         setSelectedLocationId(selectedLocationId) {
-            this.event.locationName = selectedLocationId
+            this.event.locationId = selectedLocationId
         },
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
         },
         setSelectedActivityTypeId(selectedActivityTypeId) {
-            this.event.activityTypeName = selectedActivityTypeId
+            this.event.activityTypeId = selectedActivityTypeId
         }
     }
 }
