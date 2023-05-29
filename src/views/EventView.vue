@@ -77,7 +77,7 @@
                 </div>
                 <div v-if="userEventConnection === 'korraldaja'" class="row">
                     <div class="col-sm">
-                        <button class="btn btn-primary" type="submit">Muuda üritust</button>
+                        <button @click="navigateToEditEventView" class="btn btn-primary" type="submit">Muuda üritust</button>
                     </div>
                     <div class="col-sm">
                         <button @click="openAddOrganiserModal" type="button" class="btn btn-outline-primary">Lisa korraldajaid</button>
@@ -238,6 +238,9 @@ export default {
         openDeleteEventModal() {
             this.$refs.deleteEventModalRef.$refs.modalRef.openModal()
         },
+        navigateToEditEventView() {
+            router.push({name: 'editEventRoute', query: {eventId: this.eventId}})
+        }
     },
 
     beforeMount() {

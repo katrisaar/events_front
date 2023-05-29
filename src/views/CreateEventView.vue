@@ -49,7 +49,7 @@
                 Piirkond
             </div>
             <div class="col">
-                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-name="setSelectedLocation"/>
+                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocationId"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -68,7 +68,7 @@
                 Valdkond
             </div>
             <div class="col">
-                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-name="setSelectedActivityType"/>
+                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -166,7 +166,8 @@ export default {
             newLocationName: '',
             userId: sessionStorage.getItem("userId"),
             location: {
-                locationName: ''
+                locationName: '',
+                locationId: 0
             },
             event: {
                 eventName: '',
@@ -174,7 +175,9 @@ export default {
                 fee: 0,
                 imageData: '',
                 activityTypeName: '',
+                activityTypeId: 0,
                 locationName: '',
+                locationId: 0,
                 spotsMin: 0,
                 spotsMax: 0,
                 spotsAvailable: 0,
@@ -198,7 +201,8 @@ export default {
             },
             newActivityTypeName: '',
             activityType: {
-                activityTypeName: ''
+                activityTypeName: '',
+                activityTypeId: 0
             }
         }
     },
@@ -211,10 +215,10 @@ export default {
                 }
             ).then(response => {
                 this.location = response.data
-                this.event.locationName = this.newLocationName
+                this.event.locationId = this.location.locationId
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationName(this.location.locationName)
+                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -227,10 +231,10 @@ export default {
                 }
             ).then(response => {
                 this.activityType = response.data
-                this.event.activityTypeName = this.newActivityTypeName
+                this.event.activityTypeId = this.activityType.activityTypeId
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
-                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeName(this.activityType.activityTypeName)
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -247,14 +251,14 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
-        setSelectedLocation(selectedLocationName) {
-            this.event.locationName = selectedLocationName
+        setSelectedLocationId(selectedLocationId) {
+            this.event.locationId = selectedLocationId
         },
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
         },
-        setSelectedActivityType(selectedActivityTypeName) {
-            this.event.activityTypeName = selectedActivityTypeName
+        setSelectedActivityTypeId(selectedActivityTypeId) {
+            this.event.activityTypeId = selectedActivityTypeId
         }
     }
 }

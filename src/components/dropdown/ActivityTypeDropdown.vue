@@ -1,8 +1,8 @@
 <template>
-    <select v-model="selectedActivityTypeName" @change="emitSelectedActivityTypeName" class="form-select" aria-label="Default select example">
+    <select v-model="selectedActivityTypeId" @change="emitSelectedActivityTypeId" class="form-select" aria-label="Default select example">
         <option selected value="0">Kõik valdkonnad</option>
-        <option v-for="activityType in activityTypes" :key="activityType.activityTypeName"
-                :value="activityType.activityTypeName">
+        <option v-for="activityType in activityTypes" :key="activityType.activityTypeId"
+                :value="activityType.activityTypeId">
             {{ activityType.activityTypeName }}
         </option>
     </select>
@@ -15,17 +15,18 @@ export default {
     name: "ActivityTypeDropdown",
     data() {
         return {
-            selectedActivityTypeName: '0',
+            selectedActivityTypeId: '0',
             activityTypes: [
                 {
-                    activityTypeName: ''
+                    activityTypeName: '',
+                    activityTypeId: 0
                 }
             ]
         }
     },
     methods: {
-        emitSelectedActivityTypeName() {
-            this.$emit('event-emit-selected-activity-type-name', this.selectedActivityTypeName)
+        emitSelectedActivityTypeId() {
+            this.$emit('event-emit-selected-activity-type-id', this.selectedActivityTypeId)
         },
         getActivityTypes() {
             this.$http.get("/activitytype")
@@ -36,8 +37,8 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
-        setSelectedActivityTypeName(activityTypeName) {
-            this.selectedActivityTypeName = activityTypeName
+        setSelectedActivityTypeId(activityTypeId) {
+            this.selectedActivityTypeId = activityTypeId
         }
     },
     beforeMount() {
