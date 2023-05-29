@@ -5,7 +5,7 @@
                 Korraldaja(d):
             </div>
             <div class="col">
-                <div v-for="organiser in organisers" class="row">
+                <div v-for="organiser in organisers" :key="organiser.lastName" class="row">
                     <div class="col">
                         {{organiser.firstName}} {{organiser.lastName}}
                     </div>

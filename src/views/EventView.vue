@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <AddOrganiserModal ref="addOrganiserModalRef" @event-new-organiser-added="refreshEventView" />
         <div class="row">
             <div class="col-sm">
                 <h2>{{ event.eventName }}</h2>
@@ -64,12 +65,12 @@
                 </div>
                 <div v-if="userEventConnection !== 'anonymous'" class="row">
                     <div class="col-sm">
-                        <Organisers :event-id="eventId"/>
+                        <Organisers ref="organisersRef" :event-id="eventId"/>
                     </div>
                 </div>
                 <div v-if="userEventConnection !== 'anonymous'" class="row mb-5">
                     <div class="col-sm">
-                        <Participants :event-id="eventId"/>
+                        <Participants ref="participantsRef" :event-id="eventId"/>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'korraldaja'" class="row">
@@ -77,7 +78,7 @@
                         <button class="btn btn-primary" type="submit">Muuda üritust</button>
                     </div>
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Lisa korraldajaid</button>
+                        <button @click="openAddOrganiserModal" type="button" class="btn btn-outline-primary">Lisa korraldajaid</button>
                     </div>
                     <div class="col-sm">
                         <button type="button" class="btn btn-outline-danger">Kustuta üritus</button>
@@ -94,10 +95,8 @@
                     <div class="col-sm">
                         <button type="button" class="btn btn-outline-primary">Eemalda huvitavate seast</button>
                     </div>
-                    <div class="col-sm">
-                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
-                                class="btn btn-success">Osalen üritusel
-                        </button>
+                    <div  class="col-sm">
+                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
                         <button v-else type="button" class="btn btn-success">Kõik kohad täis</button>
                     </div>
                 </div>
@@ -105,10 +104,8 @@
                     <div class="col-sm">
                         <button type="button" class="btn btn-outline-primary">Märgi huvitavaks</button>
                     </div>
-                    <div class="col-sm">
-                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
-                                class="btn btn-success">Osalen üritusel
-                        </button>
+                    <div  class="col-sm">
+                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
                         <button v-else type="button" class="btn btn-success">Kõik kohad täis</button>
                     </div>
                 </div>
@@ -126,10 +123,11 @@ import router from "@/router";
 import ProfileImage from "@/components/image/ProfileImage.vue";
 import Organisers from "@/components/connection/Organisers.vue";
 import Participants from "@/components/connection/Participants.vue";
+import AddOrganiserModal from "@/components/modal/AddOrganiserModal.vue";
 
 export default {
     name: "EventView",
-    components: {Participants, Organisers, ProfileImage},
+    components: {AddOrganiserModal, Participants, Organisers, ProfileImage},
     data() {
         return {
             userId: sessionStorage.getItem('userId'),
@@ -205,6 +203,16 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
+        openAddOrganiserModal(){
+            this.$refs.addOrganiserModalRef.setEventId(this.eventId)
+            this.$refs.addOrganiserModalRef.$refs.modalRef.openModal()
+        },
+        refreshEventView() {
+            this.getEvent()
+            this.$refs.organisersRef.getOrganisers()
+            this.$refs.participantsRef.getParticipants()
+        },
+    },
         deleteParticipant() {
             this.$http.delete("/connection/participant", {
                     params: {
