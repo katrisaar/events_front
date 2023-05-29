@@ -197,7 +197,7 @@ export default {
                 this.event.locationName = this.newLocationName
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationName)
+                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -213,7 +213,7 @@ export default {
                 this.event.activityTypeName = this.newActivityTypeName
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
-                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeName)
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
