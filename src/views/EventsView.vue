@@ -24,7 +24,7 @@
                         <td>{{event.activityTypeName}}</td>
                         <td>{{event.spotsAvailable}}</td>
                         <td>{{event.fee}}</td>
-                        <td></td>
+                        <td>{{event.connectionTypeName}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -40,6 +40,7 @@ export default {
     name: "EventsView",
     data() {
         return {
+            userId: sessionStorage.getItem('userId'),
             allEvents: [
                 {
                     eventId: '',
@@ -49,14 +50,19 @@ export default {
                     locationName: '',
                     spotsAvailable: '',
                     registrationDate: '',
-                    startDate: ''
+                    startDate: '',
+                    connectionTypeName: ''
                 }
             ]
         }
     },
     methods: {
         getAllEvents() {
-            this.$http.get("/events/all")
+            this.$http.get("/events/all", {
+                params: {
+                    userId: this.userId
+                }
+            })
                 .then(response => {
                     this.allEvents = response.data
                 })

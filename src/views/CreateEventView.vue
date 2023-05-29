@@ -4,7 +4,7 @@
             <div class="col col-6 mb-4">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Mis</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.eventName" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </div>
             <div class="col mb-3">
@@ -21,13 +21,13 @@
                 Algus
             </div>
             <div class="col">
-                <input type="date">
+                <input v-model="event.startDate" type="date">
             </div>
             <div class="col">
                 Kell
             </div>
             <div class="col">
-                <input type="time">
+                <input v-model="event.startTime" type="time">
             </div>
         </div>
         <div class="row col-7 mb-3">
@@ -35,13 +35,13 @@
                 Lõpp
             </div>
             <div class="col">
-                <input type="date">
+                <input v-model="event.endDate" type="date">
             </div>
             <div class="col">
                 Kell
             </div>
             <div class="col">
-                <input type="time">
+                <input v-model="event.endTime" type="time">
             </div>
         </div>
         <div class="row mb-3">
@@ -86,14 +86,14 @@
             <div class="col">Viimane aeg registreeruda
             </div>
             <div class="col">
-                <input type="date">
+                <input v-model="event.registrationDate" type="date">
             </div>
         </div>
         <div class="row">
             <div class="col col-6 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Minimaalne osalejate arv</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.spotsMin" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
             <div class="col col-6 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Maksimaalne osalejate arv</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.spotsMax" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
             <div class="col col-6 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Osalemistasu</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.fee" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
             <div class="col col-9 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Täpne aadress</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.addressDescription" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -134,7 +134,7 @@
         <div class="row">
             <div class="col mb-3">
                 <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
                               style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Lisa ürituse kirjeldus</label>
                 </div>
@@ -145,7 +145,7 @@
                 <button type="button" class="btn btn-secondary">Katkesta</button>
             </div>
             <div class="col">
-                <button type="button" class="btn btn-success">Salvesta üritus</button>
+                <button @click="postNewEvent" type="button" class="btn btn-success">Salvesta üritus</button>
             </div>
         </div>
     </div>
@@ -164,12 +164,37 @@ export default {
     data() {
         return {
             newLocationName: '',
+            userId: sessionStorage.getItem("userId"),
             location: {
                 locationName: ''
             },
             event: {
+                eventName: '',
+                description: '',
+                fee: 0,
+                imageData: '',
+                activityTypeName: '',
                 locationName: '',
-                imageData: ''
+                spotsMin: 0,
+                spotsMax: 0,
+                spotsAvailable: 0,
+                spotsTaken: 0,
+                addressDescription: '',
+                registrationDate: '',
+                startDate: '',
+                startTime: {
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                    nano: 0
+                },
+                endDate: '',
+                endTime: {
+                    hour: 0,
+                    minute: 0,
+                    second: 0,
+                    nano: 0
+                }
             },
             newActivityTypeName: '',
             activityType: {
@@ -178,9 +203,6 @@ export default {
         }
     },
     methods: {
-        getLocationName() {
-            return this.location.locationName
-        },
         saveLocationInput() {
             this.$http.post("/location", null, {
                     params: {
@@ -189,6 +211,7 @@ export default {
                 }
             ).then(response => {
                 this.location = response.data
+                this.event.locationName = this.newLocationName
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
                 this.$refs.locationDropdownRef.setSelectedLocationName(this.location.locationName)
@@ -204,6 +227,7 @@ export default {
                 }
             ).then(response => {
                 this.activityType = response.data
+                this.event.activityTypeName = this.newActivityTypeName
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
                 this.$refs.activityTypeDropdownRef.setSelectedActivityTypeName(this.activityType.activityTypeName)
@@ -211,7 +235,18 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
-
+        postNewEvent() {
+            this.$http.post("/event", this.event, {
+                    params: {
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                router.push({name: 'dashboardRoute'})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        },
         setSelectedLocation(selectedLocationName) {
             this.event.locationName = selectedLocationName
         },
