@@ -49,7 +49,7 @@
                 Piirkond
             </div>
             <div class="col">
-                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-name="setSelectedLocation"/>
+                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocationId"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -68,7 +68,7 @@
                 Valdkond
             </div>
             <div class="col">
-                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-name="setSelectedActivityType"/>
+                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -214,7 +214,7 @@ export default {
                 this.event.locationName = this.newLocationName
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationName(this.location.locationName)
+                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationName)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -230,7 +230,7 @@ export default {
                 this.event.activityTypeName = this.newActivityTypeName
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
-                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeName(this.activityType.activityTypeName)
+                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeName)
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
@@ -247,14 +247,14 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
-        setSelectedLocation(selectedLocationName) {
-            this.event.locationName = selectedLocationName
+        setSelectedLocationId(selectedLocationId) {
+            this.event.locationName = selectedLocationId
         },
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
         },
-        setSelectedActivityType(selectedActivityTypeName) {
-            this.event.activityTypeName = selectedActivityTypeName
+        setSelectedActivityTypeId(selectedActivityTypeId) {
+            this.event.activityTypeName = selectedActivityTypeId
         }
     }
 }

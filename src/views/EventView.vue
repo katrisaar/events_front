@@ -75,7 +75,7 @@
                 </div>
                 <div v-if="userEventConnection === 'korraldaja'" class="row">
                     <div class="col-sm">
-                        <button class="btn btn-primary" type="submit">Muuda üritust</button>
+                        <button @click="navigateToEditEventView" class="btn btn-primary" type="submit">Muuda üritust</button>
                     </div>
                     <div class="col-sm">
                         <button @click="openAddOrganiserModal" type="button" class="btn btn-outline-primary">Lisa korraldajaid</button>
@@ -210,6 +210,9 @@ export default {
             this.$refs.organisersRef.getOrganisers()
             this.$refs.participantsRef.getParticipants()
         },
+        navigateToEditEventView() {
+            router.push({name: 'editEventRoute', query: {eventId: this.eventId}})
+        }
     },
     beforeMount() {
         this.getEvent()
