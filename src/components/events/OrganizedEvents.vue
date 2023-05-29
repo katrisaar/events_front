@@ -15,20 +15,16 @@
                         <th scope="col">Üritus</th>
                         <th scope="col">Vabu kohti</th>
                         <th scope="col">Osalejaid</th>
-                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr v-for="event in organisedEvents" :key="event.eventId">
                         <td>{{event.startDate}}</td>
                         <td>{{event.registrationDate}}</td>
-                        <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
+                        <td v-if="event.status === 'A'"><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
+                        <td v-else>TÜHISTATUD: {{event.eventName}}</td>
                         <td>{{event.spotsAvailable}}</td>
                         <td>{{event.spotsTaken}}</td>
-                        <td>
-                            <font-awesome-icon  class="hoverable-link me-3" :icon="['fas', 'pen-to-square']"/>
-                            <font-awesome-icon  class="hoverable-link" :icon="['fas', 'xmark']"/>
-                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -53,7 +49,8 @@ export default {
                     spotsAvailable: 0,
                     spotsTaken: 0,
                     registrationDate: 0,
-                    startDate: 0
+                    startDate: 0,
+                    status: ''
                 }
             ],
             errorResponse: {

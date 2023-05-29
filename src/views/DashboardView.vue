@@ -20,6 +20,17 @@
                 <InterestedEvents/>
             </div>
         </div>
+        <div class="row mt-3">
+            <div class="col">
+                <button v-if="showHistoryEvents === false" @click="openHistoryEvents" class="btn btn-primary" type="submit">Vaata toimunud üritusi</button>
+                <button v-else @click="closeHistoryEvents" class="btn btn-primary" type="submit">Sulge toimunud ürituste vaade</button>
+            </div>
+        </div>
+        <div v-if="showHistoryEvents === true" class="row">
+            <div class="col">
+                <HistoryEvents/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -27,18 +38,24 @@
 import OrganizedEvents from "@/components/events/OrganizedEvents.vue";
 import ParticipatingEvents from "@/components/events/ParticipatingEvents.vue";
 import InterestedEvents from "@/components/events/InterestedEvents.vue";
+import HistoryEvents from "@/components/events/HistoryEvents.vue";
 
 export default {
     name: "DashboardView",
-    components: {InterestedEvents, ParticipatingEvents, OrganizedEvents},
+    components: {HistoryEvents, InterestedEvents, ParticipatingEvents, OrganizedEvents},
     data() {
         return {
-            userId: sessionStorage.getItem('userId')
+            userId: sessionStorage.getItem('userId'),
+            showHistoryEvents: false
         }
     },
+    methods: {
+        openHistoryEvents() {
+            this.showHistoryEvents = true
+        },
+        closeHistoryEvents() {
+            this.showHistoryEvents = false
+        },
+    }
 }
 </script>
-
-<style scoped>
-
-</style>

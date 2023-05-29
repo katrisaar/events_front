@@ -2,24 +2,25 @@
     <div class="container">
         <div class="row mt-4">
             <div class="col">
-                <h5>Tulevased üritused, kus osalen</h5>
-                <h6 v-if="participatingEventsMessage !== ''">{{participatingEventsMessage}}</h6>
+                <h5>Toimunud üritused, mida oled korraldanud või kus oled osalenud</h5>
+                <h6 v-if="message !== ''">{{message}}</h6>
                 <table v-else class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Toimumise aeg</th>
                         <th scope="col">Üritus</th>
+                        <th scope="col">Osalejaid</th>
                         <th scope="col">Asukoht</th>
-                        <th scope="col">Tasu</th>
+                        <th scope="col">Minu seos</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="event in participatingEvents" :key="event.eventId">
+                    <tr v-for="event in events" :key="event.eventId">
                         <td>{{event.startDate}}</td>
-                        <td v-if="event.status === 'A'"><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
-                        <td v-else>TÜHISTATUD: {{event.eventName}}</td>
+                        <td>{{event.eventName}}</td>
+                        <td>{{event.spotsTaken}}</td>
                         <td>{{event.locationName}}</td>
-                        <td>{{event.fee}} EUR</td>
+                        <td>{{event.connectionTypeName}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -32,19 +33,19 @@
 import router from "@/router";
 
 export default {
-    name: "ParticipatingEvents",
+    name: "HistoryEvents",
     data() {
         return {
             userId: sessionStorage.getItem('userId'),
-            participatingEventsMessage: '',
-            participatingEvents: [
+            message: '',
+            events: [
                 {
                     eventId: 0,
                     eventName: '',
-                    startDate: 0,
+                    startDate: '',
                     locationName: '',
-                    fee: 0,
-                    status: ''
+                    spotsTaken: 0,
+                    connectionTypeName: ''
                 }
             ],
             errorResponse: {
@@ -54,34 +55,28 @@ export default {
         }
     },
     methods: {
-        getParticipatingEvents() {
-            this.$http.get("/events/participating", {
+        getEvents() {
+            this.$http.get("/events/history", {
                 params: {
                     userId: this.userId
                 }
             })
                 .then(response => {
-                    this.participatingEvents = response.data
+                    this.events = response.data
                 })
                 .catch(error => {
                     this.errorResponse = error.response.data
                     if (this.errorResponse.errorCode === 555) {
-                        this.participatingEventsMessage = this.errorResponse.message
+                        this.message = this.errorResponse.message
                     } else {
                         router.push({name: 'errorRoute'})
                     }
                 })
-        },
-        navigateToEventView(eventId) {
-            router.push({name: 'eventRoute', query: {eventId: eventId}})
         }
     },
     beforeMount() {
-        this.getParticipatingEvents()
+        this.getEvents()
     }
 }
 </script>
 
-<style scoped>
-
-</style>
