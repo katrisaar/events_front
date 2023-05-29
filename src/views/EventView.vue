@@ -91,7 +91,9 @@
                 </div>
                 <div v-if="userEventConnection === 'osaleja'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Loobun osalemisest</button>
+                        <button @click="deleteParticipant" type="button" class="btn btn-outline-primary">Loobun
+                            osalemisest
+                        </button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'huvitatud'" class="row">
@@ -217,6 +219,19 @@ export default {
             this.$refs.organisersRef.getOrganisers()
             this.$refs.participantsRef.getParticipants()
         },
+        deleteParticipant() {
+            this.$http.delete("/connection/participant", {
+                    params: {
+                        eventId: this.eventId,
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                router.push({name: 'dashboardRoute'})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        },
         openCancelEventModal() {
             this.$refs.cancelEventModalRef.$refs.modalRef.openModal()
         },
@@ -224,6 +239,7 @@ export default {
             this.$refs.deleteEventModalRef.$refs.modalRef.openModal()
         },
     },
+
     beforeMount() {
         this.getEvent()
         this.defineUserConnectionToEvent()
