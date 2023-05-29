@@ -10,6 +10,7 @@ import EditProfileView from "@/views/EditProfileView.vue";
 import EventsView from "@/views/EventsView.vue";
 import CreateEventView from "@/views/CreateEventView.vue";
 import EventView from "@/views/EventView.vue";
+import EditEventView from "@/views/EditEventView.vue";
 
 const routes = [
   {
@@ -61,6 +62,11 @@ const routes = [
     path: '/editprofile',
     name: 'editProfileRoute',
     component: EditProfileView
+  },
+  {
+    path: '/editevent',
+    name: 'editEventRoute',
+    component: EditEventView
   },
   {
     path: '/profile',
