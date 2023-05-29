@@ -1,7 +1,12 @@
 <template>
     <div class="container justify-content-center">
-        <h4>Kasutajad</h4>
+        <div class="row mb-5">
+            <div class="col">
+                <button @click="updateEventsStatuses" type="button" class="btn btn-primary">Värskenda ürituste staatuseid kuupäeva alusel</button>
+            </div>
+        </div>
         <AlertSuccess :message="successMessage"/>
+        <h4>Kasutajad</h4>
         <ProfileModal ref="profileModalRef" />
         <DeleteProfileModal ref="deleteProfileModalRef" @event-user-deleted="eventProfileDeleted" />
         <div class="row mt-5">
@@ -89,6 +94,16 @@ export default {
         eventProfileDeleted(successMessage) {
             this.getAllUsers()
             this.successMessage = successMessage
+        },
+        updateEventsStatuses() {
+            this.successMessage = ''
+            this.$http.get("/events/update")
+                .then(response => {
+                    this.successMessage = 'Ürituste staatused edukalt värskendatud'
+                })
+                .catch(error => {
+                    router.push({name: 'errorRoute'})
+                })
         },
     },
     beforeMount() {

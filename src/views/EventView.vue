@@ -1,6 +1,8 @@
 <template>
     <div class="container">
         <AddOrganiserModal ref="addOrganiserModalRef" @event-new-organiser-added="refreshEventView" />
+        <CancelEventModal ref="cancelEventModalRef" :event-id="eventId"/>
+        <DeleteEventModal ref="deleteEventModalRef" :event-id="eventId" />
         <div class="row">
             <div class="col-sm">
                 <h2>{{ event.eventName }}</h2>
@@ -80,13 +82,18 @@
                     <div class="col-sm">
                         <button @click="openAddOrganiserModal" type="button" class="btn btn-outline-primary">Lisa korraldajaid</button>
                     </div>
-                    <div class="col-sm">
-                        <button type="button" class="btn btn-outline-danger">Kustuta üritus</button>
+                    <div v-if="event.spotsTaken === 0" class="col-sm">
+                        <button @click="openDeleteEventModal" type="button" class="btn btn-outline-danger">Kustuta üritus</button>
+                    </div>
+                    <div v-if="event.spotsTaken !== 0" class="col-sm">
+                        <button @click="openCancelEventModal" type="button" class="btn btn-outline-danger">Tühista üritus</button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'osaleja'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Loobun osalemisest</button>
+                        <button @click="deleteParticipant" type="button" class="btn btn-outline-primary">Loobun
+                            osalemisest
+                        </button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'huvitatud'" class="row">
@@ -122,10 +129,12 @@ import ProfileImage from "@/components/image/ProfileImage.vue";
 import Organisers from "@/components/connection/Organisers.vue";
 import Participants from "@/components/connection/Participants.vue";
 import AddOrganiserModal from "@/components/modal/AddOrganiserModal.vue";
+import CancelEventModal from "@/components/modal/CancelEventModal.vue";
+import DeleteEventModal from "@/components/modal/DeleteEventModal.vue";
 
 export default {
     name: "EventView",
-    components: {AddOrganiserModal, Participants, Organisers, ProfileImage},
+    components: {DeleteEventModal, CancelEventModal, AddOrganiserModal, Participants, Organisers, ProfileImage},
     data() {
         return {
             userId: sessionStorage.getItem('userId'),
@@ -210,10 +219,30 @@ export default {
             this.$refs.organisersRef.getOrganisers()
             this.$refs.participantsRef.getParticipants()
         },
+        deleteParticipant() {
+            this.$http.delete("/connection/participant", {
+                    params: {
+                        eventId: this.eventId,
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                router.push({name: 'dashboardRoute'})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        },
+        openCancelEventModal() {
+            this.$refs.cancelEventModalRef.$refs.modalRef.openModal()
+        },
+        openDeleteEventModal() {
+            this.$refs.deleteEventModalRef.$refs.modalRef.openModal()
+        },
         navigateToEditEventView() {
             router.push({name: 'editEventRoute', query: {eventId: this.eventId}})
         }
     },
+
     beforeMount() {
         this.getEvent()
         this.defineUserConnectionToEvent()
