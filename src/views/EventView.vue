@@ -85,15 +85,19 @@
                 </div>
                 <div v-if="userEventConnection === 'osaleja'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Loobun osalemisest</button>
+                        <button @click="deleteParticipant" type="button" class="btn btn-outline-primary">Loobun
+                            osalemisest
+                        </button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'huvitatud'" class="row">
                     <div class="col-sm">
                         <button type="button" class="btn btn-outline-primary">Eemalda huvitavate seast</button>
                     </div>
-                    <div  class="col-sm">
-                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
+                    <div class="col-sm">
+                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
+                                class="btn btn-success">Osalen üritusel
+                        </button>
                         <button v-else type="button" class="btn btn-success">Kõik kohad täis</button>
                     </div>
                 </div>
@@ -101,8 +105,10 @@
                     <div class="col-sm">
                         <button type="button" class="btn btn-outline-primary">Märgi huvitavaks</button>
                     </div>
-                    <div  class="col-sm">
-                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
+                    <div class="col-sm">
+                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
+                                class="btn btn-success">Osalen üritusel
+                        </button>
                         <button v-else type="button" class="btn btn-success">Kõik kohad täis</button>
                     </div>
                 </div>
@@ -199,7 +205,21 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
+        deleteParticipant() {
+            this.$http.delete("/connection/participant", {
+                    params: {
+                        eventId: this.eventId,
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                router.push({name: 'dashboardRoute'})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
+        }
     },
+
     beforeMount() {
         this.getEvent()
         this.defineUserConnectionToEvent()
