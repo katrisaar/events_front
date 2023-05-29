@@ -212,7 +212,6 @@ export default {
             this.$refs.organisersRef.getOrganisers()
             this.$refs.participantsRef.getParticipants()
         },
-    },
         deleteParticipant() {
             this.$http.delete("/connection/participant", {
                     params: {
