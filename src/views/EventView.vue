@@ -107,7 +107,7 @@
                 </div>
                 <div v-if="userEventConnection === 'none'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Märgi huvitavaks</button>
+                        <button @click="addInterested" type="button" class="btn btn-outline-primary">Märgi huvitavaks</button>
                     </div>
                     <div  class="col-sm">
                         <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
@@ -131,6 +131,7 @@ import Participants from "@/components/connection/Participants.vue";
 import AddOrganiserModal from "@/components/modal/AddOrganiserModal.vue";
 import CancelEventModal from "@/components/modal/CancelEventModal.vue";
 import DeleteEventModal from "@/components/modal/DeleteEventModal.vue";
+import Router from "@/router";
 
 export default {
     name: "EventView",
@@ -195,6 +196,19 @@ export default {
                 this.userEventConnection = this.connectionResponse.name
             }).catch(error => {
                 router.push({name: 'errorRoute'})
+            })
+        },
+        addInterested() {
+            this.$http.post("/connection/interested", null, {
+                    params: {
+                        eventId: this.eventId,
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                this.defineUserConnectionToEvent()
+            }).catch(error => {
+                Router.push({name: 'errorRoute'})
             })
         },
         addParticipant() {
