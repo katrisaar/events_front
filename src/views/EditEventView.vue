@@ -62,14 +62,14 @@
                     <input v-model="event.registrationDate" type="date" class="form-control" id="registrationDate">
                 </div>
                 <div class="input-group mb-3">
-                    <h5>Osalejaid mahub: {{ event.spotsMax }}</h5>
+                    <span class="input-group-text">Osalejaid mahub</span>
+                    <input v-model="event.spotsMax" type="text" class="form-control" id="registrationDate">
                 </div>
                 <div class="input-group mb-3">
                     <h5>Hetkel registreerunuid: {{ event.spotsTaken }}</h5>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Vabu kohti jäänud</span>
-                    <input v-model="event.spotsAvailable" type="text" class="form-control" id="spotsAvailable">
+                    <h5>Vabu kohti jäänud: {{ event.spotsAvailable }}</h5>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Osalemistasu</span>
@@ -241,9 +241,17 @@ export default {
             })
         },
         editEvent() {
+            const startDate = new Date(this.event.startDate);
+            const endDate = new Date(this.event.endDate);
+            const registrationDate = new Date(this.event.registrationDate);
             this.message = ''
-            this.successMessage = ''
-            if (this.isFieldsMissing()) {
+            if (startDate > endDate) {
+                this.message = 'Alguskuupäev ei saa olla lõpukuupäevast hilisem'
+            } else if (registrationDate < startDate || registrationDate > endDate) {
+                this.message = 'Registreerimiskuupäev peab jääma algus- ja lõpukuupäeva vahele'
+            } else if (this.event.spotsMin > this.event.spotsMax) {
+                this.message = 'Maksimaalne osalejate arv peab olema suurem kui minimaalne osalejate arv'
+            } else if (this.isFieldsMissing()) {
                 this.message = 'Ole hea, täida kõik väljad!'
             } else {
                 this.updateEvent()
@@ -254,16 +262,13 @@ export default {
         isFieldsMissing() {
             return this.event.eventName === '' ||
                 this.event.description === '' ||
-                this.event.activityTypeName === '' ||
-                this.event.locationName === '' ||
-                this.event.spotsMin === '' ||
-                this.event.spotsMax === '' ||
+                this.event.activityTypeId === 0 ||
+                this.event.locationId === 0 ||
+                this.event.spotsMax === 0 ||
                 this.event.addressDescription === '' ||
                 this.event.registrationDate === '' ||
                 this.event.startDate === '' ||
-                this.event.startTime === '' ||
-                this.event.endDate === '' ||
-                this.event.endTime === '';
+                this.event.endDate === '';
         },
 
         updateEvent() {
