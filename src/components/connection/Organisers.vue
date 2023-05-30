@@ -11,7 +11,7 @@
                         {{ organiser.firstName }} {{ organiser.lastName }}
                     </div>
                     <div  class="col">
-                        <font-awesome-icon v-if="organiser.userId !== currentUserId" @click="openRemoveOrganiserModal(organiser)"  class="hoverable-link"
+                        <font-awesome-icon v-if="organiser.userId !== currentUserId && userEventConnection === 'korraldaja'" @click="openRemoveOrganiserModal(organiser)"  class="hoverable-link"
                                            :icon="['fas', 'xmark']"/>
                     </div>
                 </div>
@@ -28,7 +28,8 @@ export default {
     name: "Organisers",
     components: {RemoveOrganiserModal},
     props: {
-        eventId: 0
+        eventId: 0,
+        userEventConnection: 0
     },
     data() {
         return {

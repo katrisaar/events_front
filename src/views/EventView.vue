@@ -1,15 +1,15 @@
 <template>
-    <div class="container">
-        <AddOrganiserModal ref="addOrganiserModalRef" @event-organisers-changed="refreshEventView" />
+    <div class="container col-7">
+        <AddOrganiserModal ref="addOrganiserModalRef" @event-organisers-changed="refreshEventView"/>
         <CancelEventModal ref="cancelEventModalRef" :event-id="eventId"/>
-        <DeleteEventModal ref="deleteEventModalRef" :event-id="eventId" />
+        <DeleteEventModal ref="deleteEventModalRef" :event-id="eventId"/>
         <div class="row">
             <div class="col-sm">
                 <h2>{{ event.eventName }}</h2>
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-sm">
+            <div class="col col-8">
                 <div class="row">
                     <div class="col-sm">
                         Algus: {{ event.startDate }}, kell {{ event.startTime }}
@@ -33,11 +33,6 @@
                 <div class="row">
                     <div class="col-sm">
                         Viimane aeg registreeruda: {{ event.registrationDate }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm">
-                        Kirjeldus: {{ event.description }}
                     </div>
                 </div>
                 <div class="row">
@@ -67,7 +62,8 @@
                 </div>
                 <div v-if="userEventConnection !== 'anonymous'" class="row">
                     <div class="col-sm">
-                        <Organisers ref="organisersRef" :event-id="eventId" @event-organisers-changed="refreshEventView"/>
+                        <Organisers ref="organisersRef" :event-id="eventId" :user-event-connection="userEventConnection"
+                                    @event-organisers-changed="refreshEventView"/>
                     </div>
                 </div>
                 <div v-if="userEventConnection !== 'anonymous'" class="row mb-5">
@@ -77,46 +73,63 @@
                 </div>
                 <div v-if="userEventConnection === 'korraldaja'" class="row">
                     <div class="col-sm">
-                        <button @click="navigateToEditEventView" class="btn btn-primary" type="submit">Muuda üritust</button>
+                        <button @click="navigateToEditEventView" class="btn btn-success" type="submit">Muuda üritust
+                        </button>
                     </div>
                     <div class="col-sm">
-                        <button @click="openAddOrganiserModal" type="button" class="btn btn-outline-primary">Lisa korraldajaid</button>
+                        <button @click="openAddOrganiserModal" type="button" class="btn btn-success">Lisa korraldajaid
+                        </button>
                     </div>
                     <div v-if="event.spotsTaken === 0" class="col-sm">
-                        <button @click="openDeleteEventModal" type="button" class="btn btn-outline-danger">Kustuta üritus</button>
+                        <button @click="openDeleteEventModal" type="button" class="btn btn-danger">Kustuta üritus
+                        </button>
                     </div>
                     <div v-if="event.spotsTaken !== 0" class="col-sm">
-                        <button @click="openCancelEventModal" type="button" class="btn btn-outline-danger">Tühista üritus</button>
+                        <button @click="openCancelEventModal" type="button" class="btn btn-danger">Tühista üritus
+                        </button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'osaleja'" class="row">
                     <div class="col-sm">
-                        <button @click="deleteParticipant" type="button" class="btn btn-outline-primary">Loobun
+                        <button @click="deleteParticipant" type="button" class="btn btn-success">Loobun
                             osalemisest
                         </button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'huvitatud'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Eemalda huvitavate seast</button>
+                        <button type="button" class="btn btn-success">Eemalda huvitavate seast</button>
                     </div>
-                    <div  class="col-sm">
-                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
+                    <div class="col-sm">
+                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
+                                class="btn btn-success">Osalen üritusel
+                        </button>
                         <button v-else type="button" class="btn btn-success">Kõik kohad täis</button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'none'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-outline-primary">Märgi huvitavaks</button>
+                        <button type="button" class="btn btn-success">Märgi huvitavaks</button>
                     </div>
-                    <div  class="col-sm">
-                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button" class="btn btn-success">Osalen üritusel</button>
+                    <div class="col-sm">
+                        <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
+                                class="btn btn-success">Osalen üritusel
+                        </button>
                         <button v-else type="button" class="btn btn-success">Kõik kohad täis</button>
                     </div>
                 </div>
             </div>
-            <div class="col-sm">
-                <ProfileImage :picture-data-base64="event.imageData"/>
+            <div class="col col-3">
+                <div class="row">
+                    <div class="col">
+                        <ProfileImage :picture-data-base64="event.imageData"/>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col">
+                        Kirjeldus: {{ event.description }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -210,7 +223,7 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
-        openAddOrganiserModal(){
+        openAddOrganiserModal() {
             this.$refs.addOrganiserModalRef.setEventId(this.eventId)
             this.$refs.addOrganiserModalRef.$refs.modalRef.openModal()
         },

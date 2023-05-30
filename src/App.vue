@@ -2,6 +2,8 @@
     <nav>
         <router-link to="/">Avaleht</router-link>
         |
+        <router-link to="/highlighted">Esiletõstetud</router-link>
+        |
         <router-link to="/events">Üritused</router-link>
         |
         <template v-if="userId === null">
@@ -13,7 +15,7 @@
             <router-link v-if="roleName === 'admin'" to="/admin">Kasutajate nimekiri |</router-link>
             <router-link v-else to="/dashboard">Minu üritused |</router-link>
             <router-link to="/profile"> Minu profiil |</router-link>
-            <router-link to="#" @click="handleLogout"> Logi välja</router-link>
+            <router-link to="" @click="handleLogout"> Logi välja</router-link>
         </template>
     </nav>
     <LogoutModal ref="logoutModalRef" @event-update-nav-menu="updateNavMenu"/>
