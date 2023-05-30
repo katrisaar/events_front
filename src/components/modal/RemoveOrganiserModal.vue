@@ -8,7 +8,7 @@
             korraldjate seast?
         </template>
         <template #footer>
-            <button @click="removeOrganiser" type="button" class="btn btn-primary">Eemalda korraldaja</button>
+            <button @click="removeOrganiser" type="button" class="btn btn-danger">Eemalda korraldaja</button>
         </template>
     </Modal>
 </template>

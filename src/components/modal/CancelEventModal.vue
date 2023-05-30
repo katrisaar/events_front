@@ -8,7 +8,7 @@
             <p>Üritusel on juba registreerunud osalejaid, nende osalus tühistatakse siis samuti.</p>
         </template>
         <template #footer>
-            <button @click="cancelEvent" type="button" class="btn btn-primary">Jah, soovin ürituse tühistada</button>
+            <button @click="cancelEvent" type="button" class="btn btn-success">Jah, soovin ürituse tühistada</button>
         </template>
     </Modal>
 </template>

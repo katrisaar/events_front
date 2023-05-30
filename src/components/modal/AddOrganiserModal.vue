@@ -22,7 +22,7 @@
           </div>
       </template>
       <template #footer>
-          <button @click="addOrganiser" type="button" class="btn btn-primary">Lisa korraldaja</button>
+          <button @click="addOrganiser" type="button" class="btn btn-success">Lisa korraldaja</button>
       </template>
   </Modal>
 

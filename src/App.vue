@@ -15,7 +15,7 @@
             <router-link v-if="roleName === 'admin'" to="/admin">Kasutajate nimekiri |</router-link>
             <router-link v-else to="/dashboard">Minu üritused |</router-link>
             <router-link to="/profile"> Minu profiil |</router-link>
-            <router-link to="" @click="handleLogout"> Logi välja</router-link>
+            <router-link to="" @click="handleLogout" id="customBlack"> Logi välja</router-link>
         </template>
     </nav>
     <LogoutModal ref="logoutModalRef" @event-update-nav-menu="updateNavMenu"/>
