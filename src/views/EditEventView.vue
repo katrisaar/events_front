@@ -1,7 +1,22 @@
 <template>
     <div class="container">
+        <AlertDanger :message="message"/>
         <h2>Muuda ürituse andmeid</h2>
         <div class="row mt-4">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Mis</span>
+                    <input v-model="event.eventName" type="text" class="form-control" id="eventName">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Algus</span>
@@ -40,19 +55,17 @@
                     <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocationId"/>
                 </div>
                 <div class="input-group mb-3">
-                    <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-name="setSelectedActivityTypeId"/>
+                    <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Viimane aeg registreeruda</span>
                     <input v-model="event.registrationDate" type="date" class="form-control" id="registrationDate">
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Osalejaid mahub</span>
-                    <input v-model="event.spotsMax" type="text" class="form-control" id="spotsMax">
+                    <h5>Osalejaid mahub: {{ event.spotsMax }}</h5>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Hetkel registreerunuid</span>
-                    <input v-model="event.spotsTaken" type="text" class="form-control" id="spotsTaken">
+                    <h5>Hetkel registreerunuid: {{ event.spotsTaken }}</h5>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Vabu kohti jäänud</span>
@@ -99,7 +112,12 @@
                         <button @click="saveActivityTypeInput" type="button">Lisa uus valdkond</button>
                     </div>
                 </div>
-
+                <div>
+                    <div class="input-group mt-5">
+                        <div><ProfileImage :picture-data-base64="event.imageData"/></div>
+                        <div class="mt-2"><ImageInput @event-emit-base64="setImageData" /></div>
+                    </div>
+                </div>
             </div>
         </div>
         <div>
@@ -121,13 +139,17 @@ import ActivityTypeDropdown from "@/components/dropdown/ActivityTypeDropdown.vue
 import LocationDropdown from "@/components/dropdown/LocationDropdown.vue";
 import router from "@/router";
 import {useRoute} from "vue-router";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import ImageInput from "@/components/image/ImageInput.vue";
+import ProfileImage from "@/components/image/ProfileImage.vue";
 
 export default {
     name: "EditEventView",
-    components: {LocationDropdown, ActivityTypeDropdown},
+    components: {ProfileImage, ImageInput, AlertDanger, LocationDropdown, ActivityTypeDropdown},
     data() {
         return {
             newLocationName: '',
+            message: '',
             userId: sessionStorage.getItem("userId"),
             eventId: Number(useRoute().query.eventId),
             location: {
@@ -194,7 +216,7 @@ export default {
                 }
             ).then(response => {
                 this.location = response.data
-                this.event.locationName = this.newLocationName
+                this.event.locationId = this.location.locationId
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
                 this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
@@ -210,7 +232,7 @@ export default {
                 }
             ).then(response => {
                 this.activityType = response.data
-                this.event.activityTypeName = this.newActivityTypeName
+                this.event.activityTypeId = this.activityType.activityTypeId
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
                 this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
@@ -245,6 +267,17 @@ export default {
         },
 
         updateEvent() {
+            this.$http.put("/event", this.event, {
+                    params: {
+                        eventId: this.eventId
+                    }
+                }
+            ).then(response => {
+                this.event = response.data
+                router.push({name: 'eventRoute', query: {eventId: this.eventId}})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
         },
 
         cancelEditEvent() {
@@ -255,6 +288,9 @@ export default {
         },
         setSelectedActivityTypeId(selectedActivityTypeId) {
             this.event.activityTypeId = selectedActivityTypeId
+        },
+        setImageData(pictureDataBase64) {
+            this.event.imageData = pictureDataBase64
         }
 
     },
