@@ -12,7 +12,7 @@
                         <th scope="col">Valdkond</th>
                         <th scope="col">Vabu kohti</th>
                         <th scope="col">Maksumus</th>
-                        <th scope="col">Minu seos</th>
+                        <th v-if="userId !== 0" scope="col">Minu seos</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -24,7 +24,7 @@
                         <td>{{event.activityTypeName}}</td>
                         <td>{{event.spotsAvailable}}</td>
                         <td>{{event.fee}}</td>
-                        <td>{{event.connectionTypeName}}</td>
+                        <td v-if="userId !== 0">{{event.connectionTypeName}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -75,7 +75,10 @@ export default {
         }
     },
     beforeMount() {
-        this.getAllEvents()
+        if (sessionStorage.getItem('userId') === null) {
+            this.userId = 0
+        }
+        this.getAllEvents();
     }
 }
 </script>
