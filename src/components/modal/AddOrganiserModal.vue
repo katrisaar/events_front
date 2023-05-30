@@ -63,7 +63,7 @@ export default {
                     }
                 }
             ).then(response => {
-                this.$emit('event-new-organiser-added')
+                this.$emit('event-organisers-changed')
                 this.$refs.modalRef.closeModal()
             }).catch(error => {
                 this.errorResponse = error.response.data

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <AddOrganiserModal ref="addOrganiserModalRef" @event-new-organiser-added="refreshEventView" />
+        <AddOrganiserModal ref="addOrganiserModalRef" @event-organisers-changed="refreshEventView" />
         <CancelEventModal ref="cancelEventModalRef" :event-id="eventId"/>
         <DeleteEventModal ref="deleteEventModalRef" :event-id="eventId" />
         <div class="row">
@@ -67,7 +67,7 @@
                 </div>
                 <div v-if="userEventConnection !== 'anonymous'" class="row">
                     <div class="col-sm">
-                        <Organisers ref="organisersRef" :event-id="eventId"/>
+                        <Organisers ref="organisersRef" :event-id="eventId" @event-organisers-changed="refreshEventView"/>
                     </div>
                 </div>
                 <div v-if="userEventConnection !== 'anonymous'" class="row mb-5">
