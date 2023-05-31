@@ -1,13 +1,18 @@
 <template>
     <div class="container">
+        <RemoveOrganiserModal ref="removeOrganiserModal" @event-organisers-changed="emitEventOrganisersChanged"/>
         <div class="row">
             <div class="col">
                 Korraldaja(d):
             </div>
             <div class="col">
-                <div v-for="organiser in organisers" :key="organiser.lastName" class="row">
+                <div v-for="organiser in organisers" :key="organiser.userId" class="row">
                     <div class="col">
-                        {{organiser.firstName}} {{organiser.lastName}}
+                        {{ organiser.firstName }} {{ organiser.lastName }}
+                    </div>
+                    <div  class="col">
+                        <font-awesome-icon v-if="organiser.userId !== currentUserId && userEventConnection === 'korraldaja'" @click="openRemoveOrganiserModal(organiser)"  class="hoverable-link"
+                                           :icon="['fas', 'xmark']"/>
                     </div>
                 </div>
             </div>
@@ -17,19 +22,24 @@
 
 <script>
 import router from "@/router";
+import RemoveOrganiserModal from "@/components/modal/RemoveOrganiserModal.vue";
 
 export default {
     name: "Organisers",
+    components: {RemoveOrganiserModal},
     props: {
-        eventId: 0
+        eventId: 0,
+        userEventConnection: 0
     },
     data() {
         return {
+            currentUserId: Number(sessionStorage.getItem('userId')),
             organisers: [
                 {
-                firstName: '',
-                lastName: ''
-            }]
+                    firstName: '',
+                    lastName: '',
+                    userId: 0
+                }]
         }
     },
     methods: {
@@ -44,6 +54,14 @@ export default {
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
+        },
+        openRemoveOrganiserModal(organiser) {
+            this.$refs.removeOrganiserModal.setOrganiser(organiser)
+            this.$refs.removeOrganiserModal.setEventId(this.eventId)
+            this.$refs.removeOrganiserModal.$refs.modalRef.openModal()
+        },
+        emitEventOrganisersChanged() {
+            this.$emit('event-organisers-changed')
         },
     },
     beforeMount() {

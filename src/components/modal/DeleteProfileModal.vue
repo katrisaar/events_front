@@ -1,7 +1,7 @@
 <template>
 <ProfileModal ref="profileModalRef">
     <template #footer>
-        <button @click="executeUserDelete" type="button" class="btn btn-primary">Kustuta</button>
+        <button @click="executeUserDelete" type="button" class="btn btn-danger">Kustuta</button>
     </template>
 </ProfileModal>
 </template>

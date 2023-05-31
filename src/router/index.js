@@ -11,12 +11,18 @@ import EventsView from "@/views/EventsView.vue";
 import CreateEventView from "@/views/CreateEventView.vue";
 import EventView from "@/views/EventView.vue";
 import EditEventView from "@/views/EditEventView.vue";
+import HighlightedEventsView from "@/views/HighlightedEventsView.vue";
 
 const routes = [
   {
     path: '/',
     name: 'homeRoute',
     component: HomeView
+  },
+  {
+    path: '/highlighted',
+    name: 'highlightedRoute',
+    component: HighlightedEventsView
   },
   {
     path: '/login',

@@ -7,7 +7,7 @@
             Kas oled kindel, et soovid välja logida?
         </template>
         <template #footer>
-            <button @click="executeLogout" type="button" class="btn btn-primary">Jah, soovin</button>
+            <button @click="executeLogout" type="button" class="btn btn-success">Jah, soovin</button>
         </template>
     </Modal>
 </template>

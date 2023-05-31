@@ -1,8 +1,12 @@
 <template>
     <div class="container">
-        <div class="row mt-4">
+        <div class="row mt-2 ">
             <div class="col">
                 <h5>Tulevased üritused, kus osalen</h5>
+            </div>
+        </div>
+        <div class="row mt-2 ">
+            <div class="col">
                 <h6 v-if="participatingEventsMessage !== ''">{{participatingEventsMessage}}</h6>
                 <table v-else class="table table-hover">
                     <thead>

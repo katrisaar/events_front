@@ -7,7 +7,7 @@
             <p>Oled Sa kindel, et soovid antud ürituse kustutada?</p>
         </template>
         <template #footer>
-            <button @click="deleteEvent" type="button" class="btn btn-primary">Jah, soovin ürituse kustutada</button>
+            <button @click="deleteEvent" type="button" class="btn btn-danger">Jah, soovin ürituse kustutada</button>
         </template>
     </Modal>
 </template>

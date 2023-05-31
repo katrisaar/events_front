@@ -22,7 +22,7 @@
           </div>
       </template>
       <template #footer>
-          <button @click="addOrganiser" type="button" class="btn btn-primary">Lisa korraldaja</button>
+          <button @click="addOrganiser" type="button" class="btn btn-success">Lisa korraldaja</button>
       </template>
   </Modal>
 
@@ -63,7 +63,7 @@ export default {
                     }
                 }
             ).then(response => {
-                this.$emit('event-new-organiser-added')
+                this.$emit('event-organisers-changed')
                 this.$refs.modalRef.closeModal()
             }).catch(error => {
                 this.errorResponse = error.response.data

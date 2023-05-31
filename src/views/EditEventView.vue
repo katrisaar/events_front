@@ -1,7 +1,22 @@
 <template>
     <div class="container">
+        <AlertDanger :message="message"/>
         <h2>Muuda ürituse andmeid</h2>
         <div class="row mt-4">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Mis</span>
+                    <input v-model="event.eventName" type="text" class="form-control" id="eventName">
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+                </div>
+            </div>
+            <div class="col">
+            </div>
+        </div>
+        <div class="row">
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Algus</span>
@@ -37,26 +52,30 @@
         <div class="row">
             <div class="col">
                 <div class="input-group mb-3">
-                    <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocationId"/>
+                    <LocationDropdown ref="locationDropdownRef"
+                                      @event-emit-selected-location-id="setSelectedLocationId"/>
                 </div>
                 <div class="input-group mb-3">
-                    <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-name="setSelectedActivityTypeId"/>
+                    <ActivityTypeDropdown ref="activityTypeDropdownRef"
+                                          @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Viimane aeg registreeruda</span>
                     <input v-model="event.registrationDate" type="date" class="form-control" id="registrationDate">
                 </div>
                 <div class="input-group mb-3">
+                    <span class="input-group-text">Minimaalne arv osalejaid</span>
+                    <input v-model="event.spotsMin" type="text" class="form-control" id="spotsMin">
+                </div>
+                <div class="input-group mb-3">
                     <span class="input-group-text">Osalejaid mahub</span>
                     <input v-model="event.spotsMax" type="text" class="form-control" id="spotsMax">
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Hetkel registreerunuid</span>
-                    <input v-model="event.spotsTaken" type="text" class="form-control" id="spotsTaken">
+                    <h5>Hetkel registreerunuid: {{ event.spotsTaken }}</h5>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text">Vabu kohti jäänud</span>
-                    <input v-model="event.spotsAvailable" type="text" class="form-control" id="spotsAvailable">
+                    <h5>Vabu kohti jäänud: {{ event.spotsAvailable }}</h5>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Osalemistasu</span>
@@ -67,7 +86,8 @@
                     <input v-model="event.addressDescription" type="text" class="form-control" id="addressDescription">
                 </div>
                 <div class="form-floating mb-5">
-                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here" id="description"
+                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here"
+                              id="description"
                               style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Muuda ürituse kirjeldust</label>
                 </div>
@@ -76,14 +96,16 @@
                 <div class="input-group mb-3">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroup-sizing-default">Lisa uus</span>
-                        <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input"
+                        <input v-model="newLocationName" type="text" class="form-control"
+                               aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
                 <div class="input-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Lisa uus</span>
-                        <input v-model="newActivityTypeName" type="text" class="form-control" aria-label="Sizing example input"
+                        <input v-model="newActivityTypeName" type="text" class="form-control"
+                               aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
@@ -99,7 +121,16 @@
                         <button @click="saveActivityTypeInput" type="button">Lisa uus valdkond</button>
                     </div>
                 </div>
-
+                <div>
+                    <div class="input-group mt-5">
+                        <div>
+                            <ProfileImage :picture-data-base64="event.imageData"/>
+                        </div>
+                        <div class="mt-2">
+                            <ImageInput @event-emit-base64="setImageData"/>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div>
@@ -121,13 +152,17 @@ import ActivityTypeDropdown from "@/components/dropdown/ActivityTypeDropdown.vue
 import LocationDropdown from "@/components/dropdown/LocationDropdown.vue";
 import router from "@/router";
 import {useRoute} from "vue-router";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import ImageInput from "@/components/image/ImageInput.vue";
+import ProfileImage from "@/components/image/ProfileImage.vue";
 
 export default {
     name: "EditEventView",
-    components: {LocationDropdown, ActivityTypeDropdown},
+    components: {ProfileImage, ImageInput, AlertDanger, LocationDropdown, ActivityTypeDropdown},
     data() {
         return {
             newLocationName: '',
+            message: '',
             userId: sessionStorage.getItem("userId"),
             eventId: Number(useRoute().query.eventId),
             location: {
@@ -194,7 +229,7 @@ export default {
                 }
             ).then(response => {
                 this.location = response.data
-                this.event.locationName = this.newLocationName
+                this.event.locationId = this.location.locationId
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
                 this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
@@ -210,7 +245,7 @@ export default {
                 }
             ).then(response => {
                 this.activityType = response.data
-                this.event.activityTypeName = this.newActivityTypeName
+                this.event.activityTypeId = this.activityType.activityTypeId
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
                 this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
@@ -219,32 +254,51 @@ export default {
             })
         },
         editEvent() {
+            const startDate = new Date(this.event.startDate);
+            const endDate = new Date(this.event.endDate);
+            const registrationDate = new Date(this.event.registrationDate);
             this.message = ''
-            this.successMessage = ''
-            if (this.isFieldsMissing()) {
+            if (startDate > endDate) {
+                this.message = 'Alguskuupäev ei saa olla lõpukuupäevast hilisem'
+            } else if (registrationDate > startDate) {
+                this.message = 'Registreerimiskuupäev peab olema enne alguskuupäeva'
+            } else if (this.event.spotsMin > this.event.spotsMax) {
+                this.message = 'Maksimaalne osalejate arv peab olema suurem kui minimaalne osalejate arv'
+            } else if (this.event.spotsMin < 0 || this.event.spotsMax < 0 || this.event.fee < 0) {
+                this.message = 'Sisestatud numbrid ei tohi olla negatiivsed'
+            } else if (this.isFieldsMissing()) {
                 this.message = 'Ole hea, täida kõik väljad!'
             } else {
                 this.updateEvent()
             }
-
         },
 
         isFieldsMissing() {
             return this.event.eventName === '' ||
                 this.event.description === '' ||
-                this.event.activityTypeName === '' ||
-                this.event.locationName === '' ||
-                this.event.spotsMin === '' ||
-                this.event.spotsMax === '' ||
+                this.event.activityTypeId === 0 ||
+                this.event.locationId === 0 ||
+                this.event.spotsMax === 0 ||
                 this.event.addressDescription === '' ||
                 this.event.registrationDate === '' ||
                 this.event.startDate === '' ||
-                this.event.startTime === '' ||
                 this.event.endDate === '' ||
-                this.event.endTime === '';
+                String(this.event.startTime) === '' ||
+                String(this.event.endTime) === '';
         },
 
         updateEvent() {
+            this.$http.put("/event", this.event, {
+                    params: {
+                        eventId: this.eventId
+                    }
+                }
+            ).then(response => {
+                this.event = response.data
+                router.push({name: 'eventRoute', query: {eventId: this.eventId}})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
         },
 
         cancelEditEvent() {
@@ -255,12 +309,15 @@ export default {
         },
         setSelectedActivityTypeId(selectedActivityTypeId) {
             this.event.activityTypeId = selectedActivityTypeId
+        },
+        setImageData(pictureDataBase64) {
+            this.event.imageData = pictureDataBase64
         }
 
     },
     beforeMount() {
         this.eventId = Number(useRoute().query.eventId),
-        this.getEvent()
+            this.getEvent()
     }
 }
 </script>

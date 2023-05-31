@@ -1,10 +1,12 @@
 <template>
     <div class="container col-5">
+        <AlertDanger :message="message"/>
         <div class="row">
             <div class="col col-6 mb-4">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Mis</span>
-                    <input v-model="event.eventName" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.eventName" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="addon-wrapping">
                 </div>
             </div>
             <div class="col mb-3">
@@ -68,7 +70,8 @@
                 Valdkond
             </div>
             <div class="col">
-                <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
+                <ActivityTypeDropdown ref="activityTypeDropdownRef"
+                                      @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
@@ -93,7 +96,8 @@
             <div class="col col-6 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Minimaalne osalejate arv</span>
-                    <input v-model="event.spotsMin" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.spotsMin" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -101,7 +105,8 @@
             <div class="col col-6 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Maksimaalne osalejate arv</span>
-                    <input v-model="event.spotsMax" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.spotsMax" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -109,7 +114,8 @@
             <div class="col col-6 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Osalemistasu</span>
-                    <input v-model="event.fee" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.fee" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
@@ -117,24 +123,26 @@
             <div class="col col-9 mb-3">
                 <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">Täpne aadress</span>
-                    <input v-model="event.addressDescription" type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
+                    <input v-model="event.addressDescription" type="text" class="form-control" aria-label="Username"
+                           aria-describedby="addon-wrapping">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col mb-2">
-                <button type="button" class="btn btn-success">Sisesta aadressi koordinaadid</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col mb-4">
-                <button type="button" class="btn btn-success">Määra aadress kaardil</button>
-            </div>
-        </div>
+        <!--        <div class="row">-->
+        <!--            <div class="col mb-2">-->
+        <!--                <button type="button" class="btn btn-success">Sisesta aadressi koordinaadid</button>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <div class="row">-->
+        <!--            <div class="col mb-4">-->
+        <!--                <button type="button" class="btn btn-success">Määra aadress kaardil</button>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="row">
             <div class="col mb-3">
                 <div class="form-floating">
-                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here"
+                              id="floatingTextarea2"
                               style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Lisa ürituse kirjeldus</label>
                 </div>
@@ -142,10 +150,10 @@
         </div>
         <div class="row mb-3">
             <div class="col">
-                <button type="button" class="btn btn-secondary">Katkesta</button>
+                <button @click="navigateToDashboard" type="button" class="btn btn-secondary">Katkesta</button>
             </div>
             <div class="col">
-                <button @click="postNewEvent" type="button" class="btn btn-success">Salvesta üritus</button>
+                <button @click="createEvent" type="button" class="btn btn-success">Salvesta üritus</button>
             </div>
         </div>
     </div>
@@ -157,13 +165,16 @@ import router from "@/router";
 import ImageInput from "@/components/image/ImageInput.vue";
 import ProfileImage from "@/components/image/ProfileImage.vue";
 import ActivityTypeDropdown from "@/components/dropdown/ActivityTypeDropdown.vue";
+import AlertDanger from "@/components/alert/AlertDanger.vue";
+import {end} from "@popperjs/core";
 
 export default {
     name: "CreateEventView",
-    components: {ProfileImage, ImageInput, LocationDropdown, ActivityTypeDropdown},
+    components: {AlertDanger, ProfileImage, ImageInput, LocationDropdown, ActivityTypeDropdown},
     data() {
         return {
             newLocationName: '',
+            message: '',
             userId: sessionStorage.getItem("userId"),
             location: {
                 locationName: '',
@@ -239,6 +250,39 @@ export default {
                 router.push({name: 'errorRoute'})
             })
         },
+        createEvent() {
+            const startDate = new Date(this.event.startDate);
+            const endDate = new Date(this.event.endDate);
+            const registrationDate = new Date(this.event.registrationDate);
+            this.message = ''
+            if (startDate > endDate) {
+                this.message = 'Alguskuupäev ei saa olla lõpukuupäevast hilisem'
+            } else if (registrationDate > startDate) {
+                this.message = 'Registreerimiskuupäev peab olema enne alguskuupäeva'
+            } else if (this.event.spotsMin > this.event.spotsMax) {
+                this.message = 'Maksimaalne osalejate arv peab olema suurem kui minimaalne osalejate arv'
+            } else if (this.event.spotsMin < 0 || this.event.spotsMax < 0 || this.event.fee < 0) {
+                this.message = 'Sisestatud numbrid ei tohi olla negatiivsed'
+            } else if (this.isFieldsMissing()) {
+                this.message = 'Ole hea, täida kõik väljad!'
+            } else {
+                this.postNewEvent()
+            }
+        },
+
+        isFieldsMissing() {
+            return this.event.eventName === '' ||
+                this.event.description === '' ||
+                this.event.activityTypeId === 0 ||
+                this.event.locationId === 0 ||
+                this.event.spotsMax === 0 ||
+                this.event.addressDescription === '' ||
+                this.event.registrationDate === '' ||
+                this.event.startDate === '' ||
+                this.event.endDate === '' ||
+                String(this.event.startTime) === '' ||
+                String(this.event.endTime) === '';
+        },
         postNewEvent() {
             this.$http.post("/event", this.event, {
                     params: {
@@ -259,6 +303,9 @@ export default {
         },
         setSelectedActivityTypeId(selectedActivityTypeId) {
             this.event.activityTypeId = selectedActivityTypeId
+        },
+        navigateToDashboard() {
+            router.push({name: 'dashboardRoute'})
         }
     }
 }
