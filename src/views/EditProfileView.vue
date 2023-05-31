@@ -115,7 +115,6 @@ export default {
                 this.user.password = this.password
                 this.updateUser()
             }
-
         },
         isFieldsMissing() {
             return this.user.firstName === '' ||
