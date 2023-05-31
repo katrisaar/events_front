@@ -256,13 +256,13 @@ export default {
             const registrationDate = new Date(this.event.registrationDate);
             this.message = ''
             if (startDate > endDate) {
-                this.message = 'Alguskuupäev ei saa olla lõpukuupäevast hilisem'
+                this.message = 'Üritus ei saa lõppeda enne kui see veel alanudki pole.'
             } else if (registrationDate > startDate) {
-                this.message = 'Registreerimiskuupäev peab olema enne alguskuupäeva'
+                this.message = 'Üritusele ei saa enam registreeruda, kui üritus juba alanud on.'
             } else if (this.event.spotsMin > this.event.spotsMax) {
-                this.message = 'Maksimaalne osalejate arv peab olema suurem kui minimaalne osalejate arv'
+                this.message = 'Minimaalne osalejate arv ei saa olla suurem kui maksimaalne osalejate arv.'
             } else if (this.event.spotsMin < 0 || this.event.spotsMax < 0 || this.event.fee < 0) {
-                this.message = 'Sisestatud numbrid ei tohi olla negatiivsed'
+                this.message = 'Sisestatud numbrid ei saa olla negatiivsed.'
             } else if (this.isFieldsMissing()) {
                 this.message = 'Ole hea, täida kõik väljad!'
             } else {
@@ -289,7 +289,7 @@ export default {
                     }
                 }
             ).then(response => {
-                let createSuccessMessage = 'Uus üritus edukalt loodud!'
+                let createSuccessMessage = 'Uus üritus sai edukalt loodud!'
                 sessionStorage.setItem('createSuccessMessage', createSuccessMessage)
                 router.push({name: 'dashboardRoute'})
             }).catch(error => {
