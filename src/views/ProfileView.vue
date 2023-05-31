@@ -1,23 +1,23 @@
 <template>
     <DeleteMyProfileModal ref="deleteMyProfileModalRef" @event-update-nav-menu="updateNavMenu"/>
-    <div class="container">
+    <div class="container col-6">
         <div class="row justify-content-center mt-5">
-            <div class="col col-8">
+            <div class="col col-6">
                 <h4>Eesnimi: {{ user.firstName }}</h4>
                 <h4>Perekonnanimi: {{ user.lastName }}</h4>
                 <h4>Meiliaadress: {{ user.email }}</h4>
                 <h4>Kasutajanimi: {{ user.username }}</h4>
             </div>
-            <div class="col col-4">
+            <div class="col col-3">
                 <ProfileImage :picture-data-base64="user.imageData"/>
             </div>
         </div>
         <div class="row justify-content-center  mt-5">
             <div class="col ">
-                <button @click="navigateToEditProfile()" class="btn btn-primary" type="submit">Muuda andmeid</button>
+                <button @click="navigateToEditProfile()" class="btn btn-success" type="submit">Muuda andmeid</button>
             </div>
             <div class="col">
-                <button @click="deleteMyProfile()" type="button" class="btn btn-outline-danger">Kustuta konto </button>
+                <button @click="deleteMyProfile()" type="button" class="btn btn-danger">Kustuta konto </button>
             </div>
         </div>
     </div>

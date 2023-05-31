@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container col-5">
         <div class="row">
             <div class="col">
                 <h3>Kõik minuga seotud üritused </h3>
@@ -22,8 +22,8 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                <button v-if="showHistoryEvents === false" @click="openHistoryEvents" class="btn btn-primary" type="submit">Vaata toimunud üritusi</button>
-                <button v-else @click="closeHistoryEvents" class="btn btn-primary" type="submit">Sulge toimunud ürituste vaade</button>
+                <button v-if="showHistoryEvents === false" @click="openHistoryEvents" class="btn btn-success" type="submit">Vaata toimunud üritusi</button>
+                <button v-else @click="closeHistoryEvents" class="btn btn-success" type="submit">Sulge toimunud ürituste vaade</button>
             </div>
         </div>
         <div v-if="showHistoryEvents === true" class="row">

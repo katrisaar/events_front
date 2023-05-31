@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-        <div class="row justify-content-between">
+        <div class="row justify-content-between mt-2">
             <div class="col"><h5>Tulevased üritused, mida korraldan</h5></div>
-            <div class="col"><button @click="createNewEvent" class="btn btn-primary" type="submit">Loo uus üritus</button></div>
+            <div class="col"><button @click="createNewEvent" class="btn btn-success" type="submit">Loo uus üritus</button></div>
         </div>
-        <div class="row mt-4">
+        <div class="row mt-2">
             <div class="col">
                 <h6 v-if="organisedEventsMessage !== ''">{{organisedEventsMessage}}</h6>
                 <table v-else class="table table-hover">

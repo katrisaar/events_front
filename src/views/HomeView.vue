@@ -1,17 +1,34 @@
 <template>
-    <div class="container">
+    <div class="container mb-5">
         <div class="row">
             <div class="col-sm">
-                <h5>Peatselt lõppeva registreerumisega üritused</h5>
-                <SoonToEndEvents/>
+                <h1>Tere tulemast</h1>
             </div>
+        </div>
+        <div class="row">
             <div class="col-sm">
-                <h5>Peatselt täis saavad üritused</h5>
-                <SoonToFillEvents/>
+                <h1>Ägedate Ürituste Portaali!</h1>
             </div>
+        </div>
+    </div>
+    <div class="container col-5 mt-5">
+        <div class="row">
             <div class="col-sm">
-                <h5>Värskeimalt lisatud üritused</h5>
-                <MostRecentEvents/>
+                <h3>Ükskõik millises Eestimaa otsas Sa parasjagu viibid, leiad siit kindlasti midagi meelepärast!</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container col-3 mt-3 mb-5">
+        <div class="row">
+            <div class="col-sm">
+                <h3>Ja kui ei leia, siis tule loo ise mõni äge üritus!</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container col-2 mt-5">
+        <div class="row">
+            <div class="col-sm">
+                <h5><a href="#" @click="navigateToHighlights">Tule vaata täpsemalt!</a></h5>
             </div>
         </div>
     </div>
@@ -20,19 +37,16 @@
 <script>
 // @ is an alias to /src
 
-import Modal from "@/components/modal/Modal.vue";
-import SoonToEndEvents from "@/components/events/SoonToEndEvents.vue";
-import SoonToFillEvents from "@/components/events/SoonToFillEvents.vue";
-import MostRecentEvents from "@/components/events/MostRecentEvents.vue";
+
+import router from "@/router";
 
 export default {
-  name: 'HomeView',
-  components: {
-      MostRecentEvents,
-      SoonToFillEvents,
-      SoonToEndEvents,
-      Modal
+    name: 'HomeView',
+    methods: {
+        navigateToHighlights() {
+            router.push({name: 'highlightedRoute'})
+        },
+    }
 
-  }
 }
 </script>

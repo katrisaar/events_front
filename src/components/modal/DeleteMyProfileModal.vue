@@ -8,7 +8,7 @@
          <p>Kustutamine on lõplik ja Sa ei saa pärast seda oma kasutajaga sisse logida.</p>
      </template>
      <template #footer>
-         <button @click="deleteMyProfile" type="button" class="btn btn-primary">Jah, soovin oma konto kustutada</button>
+         <button @click="deleteMyProfile" type="button" class="btn btn-danger">Jah, soovin oma konto kustutada</button>
      </template>
  </Modal>
 </template>
