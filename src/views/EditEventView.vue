@@ -227,13 +227,18 @@ export default {
                     }
                 }
             ).then(response => {
+                this.message = ''
                 this.location = response.data
                 this.event.locationId = this.location.locationId
                 this.newLocationName = ''
                 this.$refs.locationDropdownRef.getLocations()
                 this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
             }).catch(error => {
-                router.push({name: 'errorRoute'})
+                if (this.newLocationName !== this.location.locationName) {
+                    this.message = 'Selline piirkond on nimekirjas juba olemas.'
+                } else {
+                    router.push({name: 'errorRoute'})
+                }
             })
         },
         saveActivityTypeInput() {
@@ -243,13 +248,18 @@ export default {
                     }
                 }
             ).then(response => {
+                this.message = ''
                 this.activityType = response.data
                 this.event.activityTypeId = this.activityType.activityTypeId
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
                 this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
             }).catch(error => {
-                router.push({name: 'errorRoute'})
+                if (this.newActivityTypeName !== this.activityType.activityTypeName) {
+                    this.message = 'Selline valdkond on nimekirjas juba olemas.'
+                } else {
+                    router.push({name: 'errorRoute'})
+                }
             })
         },
         editEvent() {

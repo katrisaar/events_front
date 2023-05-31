@@ -225,13 +225,19 @@ export default {
                     }
                 }
             ).then(response => {
-                this.location = response.data
-                this.event.locationId = this.location.locationId
-                this.newLocationName = ''
-                this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
-            }).catch(error => {
-                router.push({name: 'errorRoute'})
+                    this.message = ''
+                    this.location = response.data
+                    this.event.locationId = this.location.locationId
+                    this.newLocationName = ''
+                    this.$refs.locationDropdownRef.getLocations()
+                    this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
+                }
+            ).catch(error => {
+                if (this.newLocationName !== this.location.locationName) {
+                this.message = 'Selline piirkond on nimekirjas juba olemas.'
+                } else {
+                    router.push({name: 'errorRoute'})
+                }
             })
         },
         saveActivityTypeInput() {
@@ -241,15 +247,21 @@ export default {
                     }
                 }
             ).then(response => {
+                this.message = ''
                 this.activityType = response.data
                 this.event.activityTypeId = this.activityType.activityTypeId
                 this.newActivityTypeName = ''
                 this.$refs.activityTypeDropdownRef.getActivityTypes()
                 this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
             }).catch(error => {
-                router.push({name: 'errorRoute'})
+                if (this.newActivityTypeName !== this.activityType.activityTypeName) {
+                    this.message = 'Selline valdkond on nimekirjas juba olemas.'
+                } else {
+                    router.push({name: 'errorRoute'})
+                }
             })
-        },
+        }
+        ,
         createEvent() {
             const startDate = new Date(this.event.startDate);
             const endDate = new Date(this.event.endDate);
@@ -268,7 +280,8 @@ export default {
             } else {
                 this.postNewEvent()
             }
-        },
+        }
+        ,
         isFieldsMissing() {
             return this.event.eventName === '' ||
                 this.event.description === '' ||
@@ -281,7 +294,8 @@ export default {
                 this.event.endDate === '' ||
                 String(this.event.startTime) === '' ||
                 String(this.event.endTime) === '';
-        },
+        }
+        ,
         postNewEvent() {
             this.$http.post("/event", this.event, {
                     params: {
@@ -295,16 +309,20 @@ export default {
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
-        },
+        }
+        ,
         setSelectedLocationId(selectedLocationId) {
             this.event.locationId = selectedLocationId
-        },
+        }
+        ,
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
-        },
+        }
+        ,
         setSelectedActivityTypeId(selectedActivityTypeId) {
             this.event.activityTypeId = selectedActivityTypeId
-        },
+        }
+        ,
         navigateToDashboard() {
             router.push({name: 'dashboardRoute'})
         }
