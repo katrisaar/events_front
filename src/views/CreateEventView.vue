@@ -1,15 +1,35 @@
 <template>
-    <div class="container col-5">
+    <div class="container col-8">
         <AlertDanger :message="message"/>
-        <div class="row">
-            <div class="col col-6 mb-4">
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Mis</span>
-                    <input v-model="event.eventName" type="text" class="form-control" aria-label="Username"
-                           aria-describedby="addon-wrapping">
+        <h2>Loo uus üritus</h2>
+        <div class="row mt-4">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Mis</span>
+                    <input v-model="event.eventName" type="text" class="form-control">
                 </div>
             </div>
-            <div class="col mb-3">
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Minimaalne osalejate arv</span>
+                    <input v-model="event.spotsMin" type="text" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Maksimaalne osalejate arv</span>
+                    <input v-model="event.spotsMax" type="text" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Osalemistasu (EUR)</span>
+                    <input v-model="event.fee" type="text" class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Viimane aeg registreeruda</span>
+                    <input v-model="event.registrationDate" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col">
                 <div>
                     <ProfileImage :picture-data-base64="event.imageData"/>
                 </div>
@@ -18,131 +38,95 @@
                 </div>
             </div>
         </div>
-        <div class="row col-7 mb-3">
+        <div class="row mt-4">
             <div class="col">
-                Algus
-            </div>
-            <div class="col">
-                <input v-model="event.startDate" type="date">
-            </div>
-            <div class="col">
-                Kell
-            </div>
-            <div class="col">
-                <input v-model="event.startTime" type="time">
-            </div>
-        </div>
-        <div class="row col-7 mb-3">
-            <div class="col">
-                Lõpp
-            </div>
-            <div class="col">
-                <input v-model="event.endDate" type="date">
-            </div>
-            <div class="col">
-                Kell
-            </div>
-            <div class="col">
-                <input v-model="event.endTime" type="time">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col col-1 mt-2">
-                Piirkond
-            </div>
-            <div class="col">
-                <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocationId"/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Algus</span>
+                    <input v-model="event.startDate" type="date" class="form-control">
+                </div>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
-                            :icon="['fas', 'plus']" size="1x"/></span>
-                    <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input"
-                           aria-describedby="inputGroup-sizing-default">
+                    <span class="input-group-text">Kell</span>
+                    <input v-model="event.startTime" class="form-control" type="time">
                 </div>
-            </div>
-            <div class="col mt-2">
-                <button type="button" @click="saveLocationInput">Lisa uus piirkond</button>
             </div>
         </div>
         <div class="row">
-            <div class=" col-1 mt-2">
-                Valdkond
-            </div>
             <div class="col">
-                <ActivityTypeDropdown ref="activityTypeDropdownRef"
-                                      @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Lõpp</span>
+                    <input v-model="event.endDate" type="date" class="form-control">
+                </div>
             </div>
             <div class="col">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default"><font-awesome-icon
-                            :icon="['fas', 'plus']" size="1x"/></span>
-                    <input v-model="newActivityTypeName" class="form-control" aria-label="Sizing example input"
-                           aria-describedby="inputGroup-sizing-default">
+                    <span class="input-group-text">Kell</span>
+                    <input v-model="event.endTime" type="time" class="form-control" id="endTime">
                 </div>
             </div>
-            <div class="col mt-2">
-                <button type="button" @click="saveActivityTypeInput">Lisa uus valdkond</button>
-            </div>
         </div>
-        <div class="row col-7 mt-3 mb-4">
-            <div class="col">Viimane aeg registreeruda
+        <div class="row mt-4">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Piirkond</span>
+                    <LocationDropdown ref="locationDropdownRef"
+                                      @event-emit-selected-location-id="setSelectedLocationId"/>
+                </div>
             </div>
             <div class="col">
-                <input v-model="event.registrationDate" type="date">
+                <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Lisa uus</span>
+                        <input v-model="newLocationName" type="text" class="form-control">
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col col-6 mb-3">
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Minimaalne osalejate arv</span>
-                    <input v-model="event.spotsMin" type="text" class="form-control" aria-label="Username"
-                           aria-describedby="addon-wrapping">
+            <div class="col col-1">
+                <div class="input-group mb-3">
+                    <button @click="saveLocationInput" class="btn btn-secondary" type="button">
+                        <font-awesome-icon :icon="['fas', 'plus']" size="xl"/>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-6 mb-3">
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Maksimaalne osalejate arv</span>
-                    <input v-model="event.spotsMax" type="text" class="form-control" aria-label="Username"
-                           aria-describedby="addon-wrapping">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Valdkond</span>
+                    <ActivityTypeDropdown ref="activityTypeDropdownRef"
+                                          @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Lisa uus</span>
+                        <input v-model="newActivityTypeName" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col col-1">
+                <div class="input-group">
+                    <button @click="saveActivityTypeInput" class="btn btn-secondary" type="button">
+                        <font-awesome-icon :icon="['fas', 'plus']" size="xl"/>
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-6 mb-3">
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Osalemistasu</span>
-                    <input v-model="event.fee" type="text" class="form-control" aria-label="Username"
-                           aria-describedby="addon-wrapping">
+
+        <div class="row mt-3">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Täpne aadress</span>
+                    <input v-model="event.addressDescription" type="text" class="form-control">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col col-9 mb-3">
-                <div class="input-group flex-nowrap">
-                    <span class="input-group-text" id="addon-wrapping">Täpne aadress</span>
-                    <input v-model="event.addressDescription" type="text" class="form-control" aria-label="Username"
-                           aria-describedby="addon-wrapping">
-                </div>
-            </div>
-        </div>
-        <!--        <div class="row">-->
-        <!--            <div class="col mb-2">-->
-        <!--                <button type="button" class="btn btn-success">Sisesta aadressi koordinaadid</button>-->
-        <!--            </div>-->
-        <!--        </div>-->
-        <!--        <div class="row">-->
-        <!--            <div class="col mb-4">-->
-        <!--                <button type="button" class="btn btn-success">Määra aadress kaardil</button>-->
-        <!--            </div>-->
-        <!--        </div>-->
         <div class="row">
             <div class="col mb-3">
                 <div class="form-floating">
-                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here"
-                              id="floatingTextarea2"
+                    <textarea v-model="event.description" class="form-control"
                               style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Lisa ürituse kirjeldus</label>
                 </div>
