@@ -51,7 +51,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <button @click="register" class="btn btn-primary" type="submit">Registreeru</button>
+                <button @click="register" class="btn btn-success" type="submit">Registreeru</button>
             </div>
         </div>
     </div>

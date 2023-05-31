@@ -1,25 +1,16 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <h6 v-if="eventsMessage !== ''">{{eventsMessage}}</h6>
-                <table v-else class="table">
-                    <tbody>
-                    <tr v-for="event in events" :key="event.eventId">
-                        <td><ProfileImage :picture-data-base64="event.imageData"/></td>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
-                                </tr>
-                                <tr>
-                                    <td>{{event.locationName}}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <h3>Värskeimalt lisatud</h3>
+        <button @click="navigateToAllEventsView" class="btn btn-success" type="submit">Vaata kõiki üritusi</button>
+        <h6 v-if="eventsMessage !== ''">{{eventsMessage}}</h6>
+        <div v-else v-for="event in events" :key="event.eventId" class="row">
+            <div class="card col-sm">
+                <img :src="event.imageData" class="card-img-top" alt="Üritust tutvustav pilt">
+                <div class="card-body">
+                    <h5 class="card-title">{{event.eventName}}</h5>
+                    <p class="card-text">{{event.locationName}}</p>
+                    <a href="#"  @click="navigateToEventView(event.eventId)" class="btn btn-success">Vaata ürituse infot</a>
+                </div>
             </div>
         </div>
     </div>
@@ -62,7 +53,10 @@ export default {
         },
         navigateToEventView(eventId) {
             router.push({name: 'eventRoute', query: {eventId: eventId}})
-        }
+        },
+        navigateToAllEventsView() {
+            router.push({name: 'eventsRoute'})
+        },
     },
     beforeMount() {
         this.getEvents()

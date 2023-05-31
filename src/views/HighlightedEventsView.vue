@@ -1,16 +1,14 @@
 <template>
-    <div class="container">
-        <div class="row">
+    <div class="row justify-content-center ">
+        <div class="row col-8">
             <div class="col-sm">
-                <h5>Peatselt lõppeva registreerumisega üritused</h5>
                 <SoonToEndEvents/>
             </div>
             <div class="col-sm">
-                <h5>Peatselt täis saavad üritused</h5>
                 <SoonToFillEvents/>
             </div>
             <div class="col-sm">
-                <h5>Värskeimalt lisatud üritused</h5>
+
                 <MostRecentEvents/>
             </div>
         </div>

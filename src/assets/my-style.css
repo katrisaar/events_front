@@ -18,6 +18,11 @@ body {
     border-color: #0c7f3c;
 }
 
+.card {
+    background-color: rgba(123,214,110,0.67);
+    margin: 5px 15px 5px 15px;
+}
+
 a {
     color: #103214;
     font-weight: bold;

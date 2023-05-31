@@ -11,16 +11,10 @@
             </div>
         </div>
     </div>
-    <div class="container col-5 mt-5">
+    <div class="container col-5 mt-5 mb-5">
         <div class="row">
             <div class="col-sm">
                 <h3>Ükskõik millises Eestimaa otsas Sa parasjagu viibid, leiad siit kindlasti midagi meelepärast!</h3>
-            </div>
-        </div>
-    </div>
-    <div class="container col-3 mt-3 mb-5">
-        <div class="row">
-            <div class="col-sm">
                 <h3>Ja kui ei leia, siis tule loo ise mõni äge üritus!</h3>
             </div>
         </div>
@@ -28,7 +22,8 @@
     <div class="container col-2 mt-5">
         <div class="row">
             <div class="col-sm">
-                <h5><a href="#" @click="navigateToHighlights">Tule vaata täpsemalt!</a></h5>
+                <a href="#" @click="navigateToHighlights"><h5>Tule vaata täpsemalt!</h5>
+                    <h5><font-awesome-icon :icon="['fas', 'right-long']" size="2xl" /> </h5></a>
             </div>
         </div>
     </div>
