@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container col-8">
         <AlertDanger :message="message"/>
         <h2>Muuda ürituse andmeid</h2>
         <div class="row mt-4">
@@ -9,14 +9,42 @@
                     <input v-model="event.eventName" type="text" class="form-control" id="eventName">
                 </div>
             </div>
+        </div>
+        <div class="row mt-4">
             <div class="col">
                 <div class="input-group mb-3">
+                    <span class="input-group-text">Minimaalne arv osalejaid</span>
+                    <input v-model="event.spotsMin" type="text" class="form-control" id="spotsMin">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Osalejaid mahub</span>
+                    <input v-model="event.spotsMax" type="text" class="form-control" id="spotsMax">
+                </div>
+                <div>
+                    <h6>Hetkel registreerunuid: {{ event.spotsTaken }}</h6>
+                </div>
+                <div>
+                    <h6>Vabu kohti jäänud: {{ event.spotsAvailable }}</h6>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Osalemistasu (EUR)</span>
+                    <input v-model="event.fee" type="text" class="form-control" id="fee">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Registreerumise aeg</span>
+                    <input v-model="event.registrationDate" type="date" class="form-control" id="registrationDate">
                 </div>
             </div>
             <div class="col">
+                <div>
+                    <ProfileImage :picture-data-base64="event.imageData"/>
+                </div>
+                <div class="mt-2">
+                    <ImageInput @event-emit-base64="setImageData"/>
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-4">
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Algus</span>
@@ -28,8 +56,6 @@
                     <span class="input-group-text">Kell</span>
                     <input v-model="event.startTime" type="time" class="form-control" id="startTime">
                 </div>
-            </div>
-            <div class="col">
             </div>
         </div>
         <div class="row">
@@ -45,41 +71,57 @@
                     <input v-model="event.endTime" type="time" class="form-control" id="endTime">
                 </div>
             </div>
-            <div class="col">
-            </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col">
                 <div class="input-group mb-3">
+                    <span class="input-group-text">Piirkond</span>
                     <LocationDropdown ref="locationDropdownRef"
                                       @event-emit-selected-location-id="setSelectedLocationId"/>
                 </div>
+            </div>
+            <div class="col">
                 <div class="input-group mb-3">
+                    <div class="input-group">
+                        <span class="input-group-text">Lisa uus</span>
+                        <input v-model="newLocationName" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col col-1">
+                <div class="input-group mb-3">
+                    <button @click="saveLocationInput" class="btn btn-secondary" type="button">
+                        <font-awesome-icon :icon="['fas', 'plus']" size="xl"/>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Valdkond</span>
                     <ActivityTypeDropdown ref="activityTypeDropdownRef"
                                           @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Viimane aeg registreeruda</span>
-                    <input v-model="event.registrationDate" type="date" class="form-control" id="registrationDate">
+            </div>
+            <div class="col">
+                <div class="input-group">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Lisa uus</span>
+                        <input v-model="newActivityTypeName" type="text" class="form-control">
+                    </div>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Minimaalne arv osalejaid</span>
-                    <input v-model="event.spotsMin" type="text" class="form-control" id="spotsMin">
+            </div>
+            <div class="col col-1">
+                <div class="input-group">
+                    <button @click="saveActivityTypeInput" class="btn btn-secondary" type="button">
+                        <font-awesome-icon :icon="['fas', 'plus']" size="xl"/>
+                    </button>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Osalejaid mahub</span>
-                    <input v-model="event.spotsMax" type="text" class="form-control" id="spotsMax">
-                </div>
-                <div class="input-group mb-3">
-                    <h5>Hetkel registreerunuid: {{ event.spotsTaken }}</h5>
-                </div>
-                <div class="input-group mb-3">
-                    <h5>Vabu kohti jäänud: {{ event.spotsAvailable }}</h5>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Osalemistasu</span>
-                    <input v-model="event.fee" type="text" class="form-control" id="fee">
-                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Täpne aadress</span>
                     <input v-model="event.addressDescription" type="text" class="form-control" id="addressDescription">
@@ -89,46 +131,6 @@
                               id="description"
                               style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Muuda ürituse kirjeldust</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="input-group mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Lisa uus</span>
-                        <input v-model="newLocationName" type="text" class="form-control"
-                               aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-default">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Lisa uus</span>
-                        <input v-model="newActivityTypeName" type="text" class="form-control"
-                               aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-default">
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div>
-                    <div class="input-group mb-3">
-                        <button @click="saveLocationInput" type="button">Lisa uus piirkond</button>
-                    </div>
-                </div>
-                <div>
-                    <div class="input-group">
-                        <button @click="saveActivityTypeInput" type="button">Lisa uus valdkond</button>
-                    </div>
-                </div>
-                <div>
-                    <div class="input-group mt-5">
-                        <div>
-                            <ProfileImage :picture-data-base64="event.imageData"/>
-                        </div>
-                        <div class="mt-2">
-                            <ImageInput @event-emit-base64="setImageData"/>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
