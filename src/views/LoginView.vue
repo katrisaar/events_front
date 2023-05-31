@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <button @click="login" class="btn btn-primary" type="submit">Logi sisse</button>
+                <button @click="login" class="btn btn-success" type="submit">Logi sisse</button>
             </div>
         </div>
         <div class="row mt-5" >
@@ -29,7 +29,7 @@
         </div>
         <div class="row mt-2">
             <div class="col">
-                <button @click="initiateRegistration" class="btn btn-outline-success" type="submit ">Registreeru</button>
+                <button @click="initiateRegistration" class="btn btn-success" type="submit ">Registreeru</button>
             </div>
         </div>
     </div>
