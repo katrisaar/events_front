@@ -52,18 +52,24 @@
         <div class="row">
             <div class="col">
                 <div class="input-group mb-3">
-                    <LocationDropdown ref="locationDropdownRef" @event-emit-selected-location-id="setSelectedLocationId"/>
+                    <LocationDropdown ref="locationDropdownRef"
+                                      @event-emit-selected-location-id="setSelectedLocationId"/>
                 </div>
                 <div class="input-group mb-3">
-                    <ActivityTypeDropdown ref="activityTypeDropdownRef" @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
+                    <ActivityTypeDropdown ref="activityTypeDropdownRef"
+                                          @event-emit-selected-activity-type-id="setSelectedActivityTypeId"/>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Viimane aeg registreeruda</span>
                     <input v-model="event.registrationDate" type="date" class="form-control" id="registrationDate">
                 </div>
                 <div class="input-group mb-3">
+                    <span class="input-group-text">Minimaalne arv osalejaid</span>
+                    <input v-model="event.spotsMin" type="text" class="form-control" id="spotsMin">
+                </div>
+                <div class="input-group mb-3">
                     <span class="input-group-text">Osalejaid mahub</span>
-                    <input v-model="event.spotsMax" type="text" class="form-control" id="registrationDate">
+                    <input v-model="event.spotsMax" type="text" class="form-control" id="spotsMax">
                 </div>
                 <div class="input-group mb-3">
                     <h5>Hetkel registreerunuid: {{ event.spotsTaken }}</h5>
@@ -80,7 +86,8 @@
                     <input v-model="event.addressDescription" type="text" class="form-control" id="addressDescription">
                 </div>
                 <div class="form-floating mb-5">
-                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here" id="description"
+                    <textarea v-model="event.description" class="form-control" placeholder="Leave a comment here"
+                              id="description"
                               style="height: 150px"></textarea>
                     <label for="floatingTextarea2">Muuda ürituse kirjeldust</label>
                 </div>
@@ -89,14 +96,16 @@
                 <div class="input-group mb-3">
                     <div class="input-group">
                         <span class="input-group-text" id="inputGroup-sizing-default">Lisa uus</span>
-                        <input v-model="newLocationName" type="text" class="form-control" aria-label="Sizing example input"
+                        <input v-model="newLocationName" type="text" class="form-control"
+                               aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
                 <div class="input-group">
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="inputGroup-sizing-default">Lisa uus</span>
-                        <input v-model="newActivityTypeName" type="text" class="form-control" aria-label="Sizing example input"
+                        <input v-model="newActivityTypeName" type="text" class="form-control"
+                               aria-label="Sizing example input"
                                aria-describedby="inputGroup-sizing-default">
                     </div>
                 </div>
@@ -114,8 +123,12 @@
                 </div>
                 <div>
                     <div class="input-group mt-5">
-                        <div><ProfileImage :picture-data-base64="event.imageData"/></div>
-                        <div class="mt-2"><ImageInput @event-emit-base64="setImageData" /></div>
+                        <div>
+                            <ProfileImage :picture-data-base64="event.imageData"/>
+                        </div>
+                        <div class="mt-2">
+                            <ImageInput @event-emit-base64="setImageData"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -247,16 +260,17 @@ export default {
             this.message = ''
             if (startDate > endDate) {
                 this.message = 'Alguskuupäev ei saa olla lõpukuupäevast hilisem'
-            } else if (registrationDate < startDate || registrationDate > endDate) {
-                this.message = 'Registreerimiskuupäev peab jääma algus- ja lõpukuupäeva vahele'
+            } else if (registrationDate > startDate) {
+                this.message = 'Registreerimiskuupäev peab olema enne alguskuupäeva'
             } else if (this.event.spotsMin > this.event.spotsMax) {
                 this.message = 'Maksimaalne osalejate arv peab olema suurem kui minimaalne osalejate arv'
+            } else if (this.event.spotsMin < 0 || this.event.spotsMax < 0 || this.event.fee < 0) {
+                this.message = 'Sisestatud numbrid ei tohi olla negatiivsed'
             } else if (this.isFieldsMissing()) {
                 this.message = 'Ole hea, täida kõik väljad!'
             } else {
                 this.updateEvent()
             }
-
         },
 
         isFieldsMissing() {
@@ -268,7 +282,9 @@ export default {
                 this.event.addressDescription === '' ||
                 this.event.registrationDate === '' ||
                 this.event.startDate === '' ||
-                this.event.endDate === '';
+                this.event.endDate === '' ||
+                String(this.event.startTime) === '' ||
+                String(this.event.endTime) === '';
         },
 
         updateEvent() {
@@ -301,7 +317,7 @@ export default {
     },
     beforeMount() {
         this.eventId = Number(useRoute().query.eventId),
-        this.getEvent()
+            this.getEvent()
     }
 }
 </script>

@@ -257,10 +257,12 @@ export default {
             this.message = ''
             if (startDate > endDate) {
                 this.message = 'Alguskuupäev ei saa olla lõpukuupäevast hilisem'
-            } else if (registrationDate < startDate || registrationDate > endDate) {
-                this.message = 'Registreerimiskuupäev peab jääma algus- ja lõpukuupäeva vahele'
+            } else if (registrationDate > startDate) {
+                this.message = 'Registreerimiskuupäev peab olema enne alguskuupäeva'
             } else if (this.event.spotsMin > this.event.spotsMax) {
                 this.message = 'Maksimaalne osalejate arv peab olema suurem kui minimaalne osalejate arv'
+            } else if (this.event.spotsMin < 0 || this.event.spotsMax < 0 || this.event.fee < 0) {
+                this.message = 'Sisestatud numbrid ei tohi olla negatiivsed'
             } else if (this.isFieldsMissing()) {
                 this.message = 'Ole hea, täida kõik väljad!'
             } else {
@@ -277,7 +279,9 @@ export default {
                 this.event.addressDescription === '' ||
                 this.event.registrationDate === '' ||
                 this.event.startDate === '' ||
-                this.event.endDate === '';
+                this.event.endDate === '' ||
+                String(this.event.startTime) === '' ||
+                String(this.event.endTime) === '';
         },
         postNewEvent() {
             this.$http.post("/event", this.event, {
