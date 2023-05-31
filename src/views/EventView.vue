@@ -98,7 +98,7 @@
                 </div>
                 <div v-if="userEventConnection === 'huvitatud'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-success">Eemalda huvitavate seast</button>
+                        <button @click="deleteInterested" type="button" class="btn btn-success">Eemalda huvitavate seast</button>
                     </div>
                     <div class="col-sm">
                         <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
@@ -109,8 +109,7 @@
                 </div>
                 <div v-if="userEventConnection === 'none'" class="row">
                     <div class="col-sm">
-                        <button type="button" class="btn btn-success">Märgi huvitavaks</button>
-                        <button @click="addInterested" type="button" class="btn btn-outline-primary">Märgi huvitavaks</button>
+                        <button @click="addInterested" type="button" class="btn btn-success">Märgi huvitavaks</button>
                     </div>
                     <div class="col-sm">
                         <button v-if="event.spotsAvailable > 0" @click="addParticipant" type="button"
@@ -146,6 +145,7 @@ import AddOrganiserModal from "@/components/modal/AddOrganiserModal.vue";
 import CancelEventModal from "@/components/modal/CancelEventModal.vue";
 import DeleteEventModal from "@/components/modal/DeleteEventModal.vue";
 import Router from "@/router";
+import dashboardView from "@/views/DashboardView.vue";
 
 export default {
     name: "EventView",
@@ -220,9 +220,9 @@ export default {
                     }
                 }
             ).then(response => {
-                this.defineUserConnectionToEvent()
+                router.push({name: 'dashboardRoute'})
             }).catch(error => {
-                Router.push({name: 'errorRoute'})
+                router.push({name: 'errorRoute'})
             })
         },
         addParticipant() {
@@ -246,6 +246,19 @@ export default {
             this.getEvent()
             this.$refs.organisersRef.getOrganisers()
             this.$refs.participantsRef.getParticipants()
+        },
+        deleteInterested() {
+            this.$http.delete("/connection/interested", {
+                    params: {
+                        eventId: this.eventId,
+                        userId: this.userId
+                    }
+                }
+            ).then(response => {
+                router.push({name: 'dashboardRoute'})
+            }).catch(error => {
+                router.push({name: 'errorRoute'})
+            })
         },
         deleteParticipant() {
             this.$http.delete("/connection/participant", {
