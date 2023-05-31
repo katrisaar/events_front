@@ -289,6 +289,8 @@ export default {
                     }
                 }
             ).then(response => {
+                let createSuccessMessage = 'Uus üritus edukalt loodud!'
+                sessionStorage.setItem('createSuccessMessage', createSuccessMessage)
                 router.push({name: 'dashboardRoute'})
             }).catch(error => {
                 router.push({name: 'errorRoute'})

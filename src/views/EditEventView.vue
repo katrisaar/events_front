@@ -292,6 +292,8 @@ export default {
                 }
             ).then(response => {
                 this.event = response.data
+                let successMessage = 'Ürituse andmed edukalt muudetud!'
+                sessionStorage.setItem('successMessage', successMessage)
                 router.push({name: 'dashboardRoute', query: {eventId: this.eventId}})
             }).catch(error => {
                 router.push({name: 'errorRoute'})
