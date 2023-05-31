@@ -40,13 +40,13 @@
         </div>
         <div class="row justify-content-center mt-2">
             <div class="col col-3 align-content-lg-start">
-                <button v-if="userId !== myUserId" @click="goBackToList" type="button" class="btn btn-outline-secondary">Tagasi kasutajate nimekirja</button>
+                <button v-if="userId !== myUserId" @click="goBackToList" type="button" class="btn btn-secondary">Tagasi kasutajate nimekirja</button>
             </div>
             <div class="col col-3">
-                <button v-if="userId === myUserId" @click="goBackToMyProfile" type="button" class="btn btn-outline-secondary">Tagasi oma profiili vaatama</button>
+                <button v-if="userId === myUserId" @click="goBackToMyProfile" type="button" class="btn btn-secondary">Tagasi oma profiili vaatama</button>
             </div>
             <div class="col col-3">
-                <button @click="editUserInfo" class="btn btn-primary" type="submit">Salvesta</button>
+                <button @click="editUserInfo" class="btn btn-success" type="submit">Salvesta</button>
             </div>
             <div class="col col-3"></div>
         </div>
