@@ -63,7 +63,6 @@ export default {
         navigateToEventView(eventId) {
             router.push({name: 'eventRoute', query: {eventId: eventId}})
         }
-
     },
     beforeMount() {
         this.getEvents()

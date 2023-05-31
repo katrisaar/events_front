@@ -25,7 +25,6 @@
           <button @click="addOrganiser" type="button" class="btn btn-success">Lisa korraldaja</button>
       </template>
   </Modal>
-
 </template>
 
 <script>
@@ -77,7 +76,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -255,7 +255,6 @@ export default {
             router.push({name: 'editEventRoute', query: {eventId: this.eventId}})
         }
     },
-
     beforeMount() {
         this.getEvent()
         this.defineUserConnectionToEvent()

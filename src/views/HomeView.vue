@@ -37,7 +37,6 @@
 <script>
 // @ is an alias to /src
 
-
 import router from "@/router";
 
 export default {
@@ -47,6 +46,5 @@ export default {
             router.push({name: 'highlightedRoute'})
         },
     }
-
 }
 </script>

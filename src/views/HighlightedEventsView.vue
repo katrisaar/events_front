@@ -27,7 +27,3 @@ export default {
     components: {MostRecentEvents, SoonToFillEvents, SoonToEndEvents}
 }
 </script>
-
-<style scoped>
-
-</style>

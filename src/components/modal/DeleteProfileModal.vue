@@ -23,7 +23,6 @@ export default {
         setSelectedUserId(selectedUserId) {
             this.selectedUserId = selectedUserId
         },
-
         executeUserDelete() {
             this.$http.delete("/profile", {
                 params: {
@@ -35,12 +34,7 @@ export default {
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
-
         }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

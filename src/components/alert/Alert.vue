@@ -14,6 +14,5 @@ export default {
     props: {
         message: String
     }
-
 }
 </script>

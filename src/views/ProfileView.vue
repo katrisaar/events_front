@@ -21,7 +21,6 @@
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -44,14 +43,12 @@ export default {
                 email: '',
                 imageData: ''
             },
-
         }
     },
     methods: {
         updateNavMenu() {
             this.$emit('event-update-nav-menu')
         },
-
         getUserInfo() {
             this.$http.get("/profile", {
                     params: {
@@ -67,7 +64,6 @@ export default {
         navigateToEditProfile(userId) {
             router.push({name: 'editProfileRoute', query: {userId: this.userId}})
         },
-
         deleteMyProfile() {
             this.$refs.deleteMyProfileModalRef.$refs.modalRef.openModal()
         },
@@ -78,7 +74,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

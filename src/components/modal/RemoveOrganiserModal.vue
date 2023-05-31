@@ -54,11 +54,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>
-<script setup>
-</script>
-<script setup>
-</script>

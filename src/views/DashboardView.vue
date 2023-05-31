@@ -1,5 +1,6 @@
 <template>
     <div class="container col-5">
+        <AlertSuccess :message="message"/>
         <div class="row">
             <div class="col">
                 <h3>Kõik minuga seotud üritused </h3>
@@ -39,12 +40,14 @@ import OrganizedEvents from "@/components/events/OrganizedEvents.vue";
 import ParticipatingEvents from "@/components/events/ParticipatingEvents.vue";
 import InterestedEvents from "@/components/events/InterestedEvents.vue";
 import HistoryEvents from "@/components/events/HistoryEvents.vue";
+import AlertSuccess from "@/components/alert/AlertSuccess.vue";
 
 export default {
     name: "DashboardView",
-    components: {HistoryEvents, InterestedEvents, ParticipatingEvents, OrganizedEvents},
+    components: {AlertSuccess, HistoryEvents, InterestedEvents, ParticipatingEvents, OrganizedEvents},
     data() {
         return {
+            message: '',
             userId: sessionStorage.getItem('userId'),
             showHistoryEvents: false
         }

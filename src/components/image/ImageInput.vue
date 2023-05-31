@@ -17,7 +17,6 @@ export default {
             const selectedImage = event.target.files[0];
             this.emitBase64(selectedImage);
         },
-
         emitBase64(fileObject) {
             const reader = new FileReader();
             reader.onload = () => {
@@ -29,7 +28,6 @@ export default {
             }
             reader.readAsDataURL(fileObject);
         },
-
         setPictureDataBase64(pictureDataBase64) {
             this.pictureDataBase64 = pictureDataBase64
         }

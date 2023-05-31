@@ -269,7 +269,6 @@ export default {
                 this.postNewEvent()
             }
         },
-
         isFieldsMissing() {
             return this.event.eventName === '' ||
                 this.event.description === '' ||

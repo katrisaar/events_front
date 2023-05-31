@@ -67,7 +67,6 @@ export default {
                 this.sendLoginRequest()
             }
         },
-
         sendLoginRequest() {
             this.$http.get("/login", {
                 params: {
@@ -92,7 +91,6 @@ export default {
         initiateRegistration() {
             router.push({name: 'registerRoute'})
         },
-
     }
 }
 </script>

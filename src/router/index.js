@@ -79,7 +79,6 @@ const routes = [
     name: 'profileRoute',
     component: ProfileView
   }
-
 ]
 
 const router = createRouter({

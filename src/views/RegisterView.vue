@@ -96,7 +96,6 @@ export default {
                 this.postNewUser()
             }
         },
-
         isFieldsMissing() {
             return this.newUser.firstName === '' ||
                 this.newUser.lastName === '' ||
@@ -105,11 +104,9 @@ export default {
                 this.newUser.password === '' ||
                 this.repeatPassword === '';
         },
-
         existsPasswordsMismatch() {
             return this.newUser.password !== this.repeatPassword;
         },
-
         postNewUser() {
             this.message = ''
             this.$http.post("/profile", this.newUser
@@ -130,6 +127,5 @@ export default {
             )
         },
     }
-
 }
 </script>

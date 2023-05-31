@@ -272,7 +272,6 @@ export default {
                 this.updateEvent()
             }
         },
-
         isFieldsMissing() {
             return this.event.eventName === '' ||
                 this.event.description === '' ||
@@ -286,7 +285,6 @@ export default {
                 String(this.event.startTime) === '' ||
                 String(this.event.endTime) === '';
         },
-
         updateEvent() {
             this.$http.put("/event", this.event, {
                     params: {
@@ -295,12 +293,11 @@ export default {
                 }
             ).then(response => {
                 this.event = response.data
-                router.push({name: 'eventRoute', query: {eventId: this.eventId}})
+                router.push({name: 'dashboardRoute', query: {eventId: this.eventId}})
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
         },
-
         cancelEditEvent() {
             router.push({name: 'eventRoute', query: {eventId: this.eventId}})
         },
@@ -313,11 +310,10 @@ export default {
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
         }
-
     },
     beforeMount() {
-        this.eventId = Number(useRoute().query.eventId),
-            this.getEvent()
+        this.eventId = Number(useRoute().query.eventId)
+        this.getEvent()
     }
 }
 </script>

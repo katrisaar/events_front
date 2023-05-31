@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-
         <div class="row mt-5" >
             <div class="col">
                 <font-awesome-icon :icon="['far', 'face-grimace']" size="10x"/>
@@ -30,7 +29,3 @@ export default {
     name: "ErrorView"
 }
 </script>
-
-<style scoped>
-
-</style>

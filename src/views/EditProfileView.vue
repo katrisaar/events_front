@@ -101,11 +101,9 @@ export default {
                     router.push({name: 'errorRoute'})
                 })
         },
-
         setImageData(pictureDataBase64) {
             this.user.imageData = pictureDataBase64
         },
-
         editUserInfo() {
             this.message = ''
             this.successMessage = ''
@@ -119,18 +117,15 @@ export default {
             }
 
         },
-
         isFieldsMissing() {
             return this.user.firstName === '' ||
                 this.user.lastName === '' ||
                 this.user.email === '' ||
                 this.user.username === '';
         },
-
         existsPasswordsMismatch() {
             return this.password !== this.repeatPassword;
         },
-
         updateUser() {
             this.message = ''
             this.successMessage = ''
@@ -150,15 +145,12 @@ export default {
                 }
             })
         },
-
         goBackToList() {
             router.push({name: 'adminRoute'})
         },
-
         goBackToMyProfile() {
             router.push({name: 'profileRoute'})
         },
-
     },
     beforeMount() {
         this.getUserInfo()

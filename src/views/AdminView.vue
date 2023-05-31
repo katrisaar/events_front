@@ -90,7 +90,6 @@ export default {
             this.$refs.deleteProfileModalRef.$refs.profileModalRef.getUserInfoAndOpenProfileModal(userId)
             this.$refs.deleteProfileModalRef.setSelectedUserId(userId)
         },
-
         eventProfileDeleted(successMessage) {
             this.getAllUsers()
             this.successMessage = successMessage
@@ -110,5 +109,4 @@ export default {
         this.getAllUsers()
     }
 }
-
 </script>
