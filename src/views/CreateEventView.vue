@@ -14,15 +14,15 @@
             <div class="col">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Minimaalne osalejate arv</span>
-                    <input v-model="event.spotsMin" type="text" class="form-control">
+                    <input v-model="event.spotsMin" type="number" class="form-control">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Maksimaalne osalejate arv</span>
-                    <input v-model="event.spotsMax" type="text" class="form-control">
+                    <input v-model="event.spotsMax" type="number" class="form-control">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Osalemistasu (EUR)</span>
-                    <input v-model="event.fee" type="text" class="form-control">
+                    <input v-model="event.fee" type="number" class="form-control">
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Viimane aeg registreeruda</span>

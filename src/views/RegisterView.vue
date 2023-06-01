@@ -1,5 +1,6 @@
 <template>
     <div @keydown.enter="register" class="container">
+        <h3 class="mt-4">Registreeri end kasutajaks</h3>
         <AlertDanger :message="message"/>
         <div class="row justify-content-center  mt-5">
             <div class="col col-3">

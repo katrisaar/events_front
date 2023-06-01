@@ -1,4 +1,8 @@
 <template>
+    <div class="col">
+        <button v-if="Number(userId) === 0" @click="navigateToLogin" type="button" class="btn btn-success">Loo ise üritus</button>
+        <button v-else @click="navigateToCreateEvent" type="button" class="btn btn-success">Loo ise üritus</button>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col">
@@ -58,6 +62,7 @@ export default {
     },
     methods: {
         getAllEvents() {
+            console.log('olen siin ' + this.userId)
             this.$http.get("/events/all", {
                 params: {
                     userId: this.userId
@@ -72,6 +77,12 @@ export default {
         },
         navigateToEventView(eventId) {
             router.push({name: 'eventRoute', query: {eventId: eventId}})
+        },
+        navigateToLogin() {
+            router.push({name: 'loginRoute'})
+        },
+        navigateToCreateEvent() {
+            router.push({name: 'createEventRoute'})
         }
     },
     beforeMount() {
