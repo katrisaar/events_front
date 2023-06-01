@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{event.eventName}}</h5>
                     <p class="card-text">{{event.locationName}}</p>
-                    <a href="#"  @click="navigateToEventView(event.eventId)" class="btn btn-success">Vaata ürituse infot</a>
+                    <a href="#" @click="navigateToEventView(event.eventId)" class="btn btn-success">Vaata ürituse infot</a>
                 </div>
             </div>
         </div>
