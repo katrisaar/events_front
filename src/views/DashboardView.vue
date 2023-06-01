@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-5">
+    <div class="container col-6">
         <AlertSuccess :message="successMessage"/>
         <AlertSuccess :message="createSuccessMessage"/>
         <div class="row">
