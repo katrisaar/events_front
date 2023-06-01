@@ -73,7 +73,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-sm">
-                        <button @click="$router.go(-1)" class="btn btn-secondary" type="submit">Tagasi
+                        <button @click="$router.go(-2)" class="btn btn-secondary" type="submit">Tagasi
                         </button>
                     </div>
                 </div>
