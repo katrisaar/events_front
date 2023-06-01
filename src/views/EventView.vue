@@ -66,9 +66,15 @@
                                     @event-organisers-changed="refreshEventView"/>
                     </div>
                 </div>
-                <div v-if="userEventConnection !== 'anonymous'" class="row mb-5">
+                <div v-if="userEventConnection !== 'anonymous'" class="row mb-3">
                     <div class="col-sm">
                         <Participants ref="participantsRef" :event-id="eventId"/>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm">
+                        <button @click="$router.go(-1)" class="btn btn-secondary" type="submit">Tagasi
+                        </button>
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'korraldaja'" class="row">
@@ -136,7 +142,7 @@
 </template>
 
 <script>
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import router from "@/router";
 import ProfileImage from "@/components/image/ProfileImage.vue";
 import Organisers from "@/components/connection/Organisers.vue";
@@ -179,6 +185,7 @@ export default {
         }
     },
     methods: {
+        useRouter,
         getEvent() {
             this.$http.get("/event", {
                     params: {

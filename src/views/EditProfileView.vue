@@ -39,11 +39,9 @@
             </div>
         </div>
         <div class="row justify-content-center mt-2">
-            <div class="col col-3 align-content-lg-start">
-                <button v-if="userId !== myUserId" @click="goBackToList" type="button" class="btn btn-secondary">Tagasi kasutajate nimekirja</button>
-            </div>
             <div class="col col-3">
-                <button v-if="userId === myUserId" @click="goBackToMyProfile" type="button" class="btn btn-secondary">Tagasi oma profiili vaatama</button>
+                <button @click="$router.go(-1)" class="btn btn-secondary" type="submit">Tagasi
+                </button>
             </div>
             <div class="col col-3">
                 <button @click="editUserInfo" class="btn btn-success" type="submit">Salvesta</button>

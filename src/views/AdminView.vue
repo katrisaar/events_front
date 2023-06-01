@@ -2,7 +2,7 @@
     <div class="container justify-content-center">
         <div class="row mb-5">
             <div class="col">
-                <button @click="updateEventsStatuses" type="button" class="btn btn-primary">Värskenda ürituste staatuseid kuupäeva alusel</button>
+                <button @click="updateEventsStatuses" type="button" class="btn btn-success">Värskenda ürituste staatuseid kuupäeva alusel</button>
             </div>
         </div>
         <AlertSuccess :message="successMessage"/>
