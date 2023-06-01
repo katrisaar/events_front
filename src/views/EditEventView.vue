@@ -24,7 +24,7 @@
                     <h6>Hetkel registreerunuid: {{ event.spotsTaken }}</h6>
                 </div>
                 <div>
-                    <h6>Vabu kohti jäänud: {{ event.spotsAvailable }}</h6>
+                    <h6>Vabu kohti jäänud: {{ event.spotsMax - event.spotsTaken }}</h6>
                 </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text">Osalemistasu (EUR)</span>
@@ -192,6 +192,10 @@ export default {
                     second: 0,
                     nano: 0
                 },
+                errorResponse: {
+                    message: '',
+                    errorCode: 0
+                },
                 endDate: '',
                 endTime: {
                     hour: 0,
@@ -223,46 +227,56 @@ export default {
             })
         },
         saveLocationInput() {
-            this.$http.post("/location", null, {
-                    params: {
-                        newLocationName: this.newLocationName
+            if (this.newLocationName === '') {
+                this.message = 'Sul jäi piirkond sisestamata.'
+            } else {
+                this.$http.post("/location", null, {
+                        params: {
+                            newLocationName: this.newLocationName
+                        }
                     }
-                }
-            ).then(response => {
-                this.message = ''
-                this.location = response.data
-                this.event.locationId = this.location.locationId
-                this.newLocationName = ''
-                this.$refs.locationDropdownRef.getLocations()
-                this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
-            }).catch(error => {
-                if (this.newLocationName !== this.location.locationName) {
-                    this.message = 'Selline piirkond on nimekirjas juba olemas.'
-                } else {
-                    router.push({name: 'errorRoute'})
-                }
-            })
+                ).then(response => {
+                    this.message = ''
+                    this.location = response.data
+                    this.event.locationId = this.location.locationId
+                    this.newLocationName = ''
+                    this.$refs.locationDropdownRef.getLocations()
+                    this.$refs.locationDropdownRef.setSelectedLocationId(this.location.locationId)
+                }).catch(error => {
+                    this.errorResponse = error.response.data
+                    if (this.errorResponse.errorCode === 333) {
+                        this.message = this.errorResponse.message
+                    } else {
+                        router.push({name: 'errorRoute'})
+                    }
+                })
+            }
         },
         saveActivityTypeInput() {
-            this.$http.post("/activitytype", null, {
-                    params: {
-                        newActivityTypeName: this.newActivityTypeName
+            if (this.newActivityTypeName === '') {
+                this.message = 'Sul jäi valdkond sisestamata.'
+            } else {
+                this.$http.post("/activitytype", null, {
+                        params: {
+                            newActivityTypeName: this.newActivityTypeName
+                        }
                     }
-                }
-            ).then(response => {
-                this.message = ''
-                this.activityType = response.data
-                this.event.activityTypeId = this.activityType.activityTypeId
-                this.newActivityTypeName = ''
-                this.$refs.activityTypeDropdownRef.getActivityTypes()
-                this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
-            }).catch(error => {
-                if (this.newActivityTypeName !== this.activityType.activityTypeName) {
-                    this.message = 'Selline valdkond on nimekirjas juba olemas.'
-                } else {
-                    router.push({name: 'errorRoute'})
-                }
-            })
+                ).then(response => {
+                    this.message = ''
+                    this.activityType = response.data
+                    this.event.activityTypeId = this.activityType.activityTypeId
+                    this.newActivityTypeName = ''
+                    this.$refs.activityTypeDropdownRef.getActivityTypes()
+                    this.$refs.activityTypeDropdownRef.setSelectedActivityTypeId(this.activityType.activityTypeId)
+                }).catch(error => {
+                    this.errorResponse = error.response.data
+                    if (this.errorResponse.errorCode === 444) {
+                        this.message = this.errorResponse.message
+                    } else {
+                        router.push({name: 'errorRoute'})
+                    }
+                })
+            }
         },
         editEvent() {
             const startDate = new Date(this.event.startDate);
@@ -297,6 +311,7 @@ export default {
                 String(this.event.endTime) === '';
         },
         updateEvent() {
+            this.event.spotsAvailable = this.event.spotsMax - this.event.spotsTaken
             this.$http.put("/event", this.event, {
                     params: {
                         eventId: this.eventId
