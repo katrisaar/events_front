@@ -12,12 +12,12 @@
             <div class="col col-8">
                 <div class="row">
                     <div class="col-sm">
-                        Algus: {{ event.startDate }}, kell {{ event.startTime }}
+                        Algus: {{ formatDate(event.startDate) }}, kell {{ event.startTime }}
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm">
-                        Lõpp: {{ event.endDate }}, kell {{ event.endTime }}
+                        Lõpp: {{ formatDate(event.endDate) }}, kell {{ event.endTime }}
                     </div>
                 </div>
                 <div class="row">
@@ -32,7 +32,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm">
-                        Viimane aeg registreeruda: {{ event.registrationDate }}
+                        Viimane aeg registreeruda: {{ formatDate(event.registrationDate) }}
                     </div>
                 </div>
                 <div class="row">
@@ -52,7 +52,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm">
-                        Osalemistasu: {{ event.fee }} eur
+                        Osalemistasu: {{ event.fee }} EUR
                     </div>
                 </div>
                 <div v-if="userEventConnection === 'korraldaja' || userEventConnection === 'osaleja'" class="row">
@@ -152,6 +152,7 @@ import CancelEventModal from "@/components/modal/CancelEventModal.vue";
 import DeleteEventModal from "@/components/modal/DeleteEventModal.vue";
 import Router from "@/router";
 import dashboardView from "@/views/DashboardView.vue";
+import moment from "moment/moment";
 
 export default {
     name: "EventView",
@@ -288,6 +289,9 @@ export default {
         },
         navigateToEditEventView() {
             router.push({name: 'editEventRoute', query: {eventId: this.eventId}})
+        },
+        formatDate(date) {
+            return moment(date).format('DD.MM.YYYY');
         }
     },
     beforeMount() {
