@@ -63,7 +63,6 @@ export default {
     },
     methods: {
         getAllEvents() {
-            console.log('olen siin ' + this.userId)
             this.$http.get("/events/all", {
                 params: {
                     userId: this.userId
