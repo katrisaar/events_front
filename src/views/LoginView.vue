@@ -1,7 +1,8 @@
 <template>
     <div @keydown.enter="login" class="container">
+        <h3 class="mt-4">Logi sisse</h3>
         <AlertDanger :message="message"/>
-        <div class="row justify-content-center  mt-5">
+        <div class="row justify-content-center mt-5">
             <div class="col col-3">
                 <div class="input-group mb-3">
                     <span class="input-group-text">Kasutajanimi</span>
@@ -29,7 +30,7 @@
         </div>
         <div class="row mt-2">
             <div class="col">
-                <button @click="initiateRegistration" class="btn btn-success" type="submit ">Registreeru</button>
+                <button @click="initiateRegistration" class="btn btn-success" type="submit">Registreeru</button>
             </div>
         </div>
     </div>
@@ -45,6 +46,7 @@ export default {
     data() {
         return {
             username: '',
+            userId: sessionStorage.getItem('userId'),
             password: '',
             message:
                 '',
