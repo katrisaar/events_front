@@ -19,8 +19,8 @@
                     </thead>
                     <tbody>
                     <tr v-for="event in organisedEvents" :key="event.eventId">
-                        <td>{{event.startDate}}</td>
-                        <td>{{event.registrationDate}}</td>
+                        <td>{{formatDate(event.startDate)}}</td>
+                        <td>{{formatDate(event.registrationDate)}}</td>
                         <td v-if="event.status === 'A'"><a href="#" @click="navigateToEventView(event.eventId)">{{event.eventName}}</a></td>
                         <td v-else>TÜHISTATUD: {{event.eventName}}</td>
                         <td>{{event.spotsAvailable}}</td>
@@ -35,6 +35,7 @@
 
 <script>
 import router from "@/router";
+import moment from "moment";
 
 export default {
     name: "OrganizedEvents",
@@ -84,6 +85,9 @@ export default {
         createNewEvent() {
             router.push({name: 'createEventRoute'})
         },
+        formatDate(date) {
+            return moment(date).format('DD.MM.YYYY');
+        }
     },
     beforeMount() {
         this.getOrganisedEvents()

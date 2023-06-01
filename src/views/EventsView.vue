@@ -21,8 +21,8 @@
                     </thead>
                     <tbody>
                     <tr v-for="event in allEvents" :key="event.name">
-                        <td>{{event.startDate}}</td>
-                        <td>{{event.registrationDate}}</td>
+                        <td>{{formatDate(event.startDate)}}</td>
+                        <td>{{formatDate(event.registrationDate)}}</td>
                         <td><a href="#" @click="navigateToEventView(event.eventId)">{{event.name}}</a></td>
                         <td>{{event.locationName}}</td>
                         <td>{{event.activityTypeName}}</td>
@@ -39,6 +39,7 @@
 
 <script>
 import router from "@/router";
+import moment from 'moment';
 
 export default {
     name: "EventsView",
@@ -83,6 +84,9 @@ export default {
         },
         navigateToCreateEvent() {
             router.push({name: 'createEventRoute'})
+        },
+        formatDate(date) {
+            return moment(date).format('DD.MM.YYYY');
         }
     },
     beforeMount() {

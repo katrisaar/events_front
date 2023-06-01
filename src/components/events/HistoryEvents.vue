@@ -16,7 +16,7 @@
                     </thead>
                     <tbody>
                     <tr v-for="event in events" :key="event.eventId">
-                        <td>{{event.startDate}}</td>
+                        <td>{{formatDate(event.startDate)}}</td>
                         <td>{{event.eventName}}</td>
                         <td>{{event.spotsTaken}}</td>
                         <td>{{event.locationName}}</td>
@@ -31,6 +31,7 @@
 
 <script>
 import router from "@/router";
+import moment from "moment/moment";
 
 export default {
     name: "HistoryEvents",
@@ -72,6 +73,9 @@ export default {
                         router.push({name: 'errorRoute'})
                     }
                 })
+        },
+        formatDate(date) {
+            return moment(date).format('DD.MM.YYYY');
         }
     },
     beforeMount() {
