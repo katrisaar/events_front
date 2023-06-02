@@ -57,7 +57,7 @@ export default {
     },
     methods: {
         getEvents() {
-            this.$http.get("/events/history", {
+            this.$http.get("/connection/history", {
                 params: {
                     userId: this.userId
                 }

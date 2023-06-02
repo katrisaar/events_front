@@ -60,7 +60,7 @@ export default {
     },
     methods: {
         getParticipatingEvents() {
-            this.$http.get("/events/participating", {
+            this.$http.get("/connection/participant", {
                 params: {
                     userId: this.userId
                 }

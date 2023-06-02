@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         getInterestedEvents() {
-            this.$http.get("/events/interested", {
+            this.$http.get("/connection/interested", {
                 params: {
                     userId: this.userId
                 }

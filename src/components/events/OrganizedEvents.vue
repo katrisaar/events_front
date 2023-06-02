@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         getOrganisedEvents() {
-            this.$http.get("/events/organised", {
+            this.$http.get("/connection/organiser", {
                 params: {
                     userId: this.userId
                 }
