@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-    background-color: rgba(123,214,110,0.67) ;
+    background-color: rgba(123, 214, 110, 0.67);
     border-radius: 25px;
     padding: 5px;
     margin-top: 10px;
@@ -19,7 +19,7 @@ body {
 }
 
 .card {
-    background-color: rgba(123,214,110,0.67);
+    background-color: rgba(123, 214, 110, 0.67);
     margin: 5px 15px 5px 15px;
 }
 

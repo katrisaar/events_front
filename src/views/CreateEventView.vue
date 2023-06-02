@@ -210,7 +210,6 @@ export default {
             if (this.newLocationName === '') {
                 this.message = 'Sul jäi piirkond sisestamata.'
             } else {
-                console.log('olen siin ' + this.newLocationName)
                 this.$http.post("/location", null, {
                         params: {
                             newLocationName: this.newLocationName
@@ -259,8 +258,7 @@ export default {
                     }
                 })
             }
-        }
-        ,
+        },
         createEvent() {
             const startDate = new Date(this.event.startDate);
             const endDate = new Date(this.event.endDate);
@@ -279,8 +277,7 @@ export default {
             } else {
                 this.postNewEvent()
             }
-        }
-        ,
+        },
         isFieldsMissing() {
             return this.event.eventName === '' ||
                 this.event.description === '' ||
@@ -293,8 +290,7 @@ export default {
                 this.event.endDate === '' ||
                 String(this.event.startTime) === '' ||
                 String(this.event.endTime) === '';
-        }
-        ,
+        },
         postNewEvent() {
             this.$http.post("/event", this.event, {
                     params: {
@@ -308,20 +304,16 @@ export default {
             }).catch(error => {
                 router.push({name: 'errorRoute'})
             })
-        }
-        ,
+        },
         setSelectedLocationId(selectedLocationId) {
             this.event.locationId = selectedLocationId
-        }
-        ,
+        },
         setImageData(pictureDataBase64) {
             this.event.imageData = pictureDataBase64
-        }
-        ,
+        },
         setSelectedActivityTypeId(selectedActivityTypeId) {
             this.event.activityTypeId = selectedActivityTypeId
-        }
-        ,
+        },
         navigateToDashboard() {
             router.push({name: 'dashboardRoute'})
         }

@@ -8,7 +8,6 @@
                 <SoonToFillEvents/>
             </div>
             <div class="col-sm">
-
                 <MostRecentEvents/>
             </div>
         </div>
